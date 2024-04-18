@@ -1,0 +1,7 @@
+{
+  "name": "UNIT-ICE",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
