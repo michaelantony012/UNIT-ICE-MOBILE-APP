@@ -1,0 +1,23 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title><h2>Biaya</h2></ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <!-- //https://stackoverflow.com/questions/42756322/how-to-make-an-ionic-list-scrollable -->
+  <div scrolly="true" style="max-height:87%">
+    <ion-list> <!-- [inset]="true" lines="full" -->
+      <ion-item *ngFor="let item of DaftarBiaya">
+        <ion-label>{{item.keterangan}}, {{ item.total_biaya }}</ion-label>
+        <ion-icon (click)="edit(item.biaya_id)" slot="end" name="play-outline"></ion-icon>
+        <ion-icon (click)="delete(item.biaya_id)" slot="end" name="trash-outline"></ion-icon>
+        <!-- <ion-icon name="play-outline"></ion-icon> -->
+      </ion-item>
+    </ion-list>
+  </div>
+  <!-- align to the bottom of the page -->
+  <div style="position: absolute; bottom: 0px; width: 100%; padding: 0 10px 10px 10px">
+    <ion-button expand="block" (click)="add()"><b>Add</b></ion-button>
+</div>
+</ion-content>

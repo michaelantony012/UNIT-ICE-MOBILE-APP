@@ -1,0 +1,11 @@
+ion-header {
+    background-color: gray;
+}
+// https://forum.ionicframework.com/t/ion-items-not-clickable-as-button-in-content-of-ion-menu/179115/5
+ion-item[button] {
+    pointer-events: auto !important;
+}
+
+td {
+    padding-bottom: 7px;
+}

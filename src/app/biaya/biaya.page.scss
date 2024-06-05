@@ -1,0 +1,11 @@
+//https://stackoverflow.com/questions/42756322/how-to-make-an-ionic-list-scrollable
+div[scrollx=true],div[scrolly=true] {
+    position: relative;
+    overflow: hidden;
+}
+div[scrollx=true] {
+   overflow-x: auto;
+}
+div[scrolly=true] {
+   overflow-y: auto;
+}

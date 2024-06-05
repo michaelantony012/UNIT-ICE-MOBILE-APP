@@ -1,0 +1,42 @@
+<!-- <ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>sales</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">sales</ion-title>
+    </ion-toolbar>
+  </ion-header> -->
+
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title><h2>Sales</h2></ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <!-- //https://stackoverflow.com/questions/42756322/how-to-make-an-ionic-list-scrollable -->
+  <div scrolly="true" style="max-height:90%">
+    <ion-list>
+      <!-- The reorder gesture is disabled by default, enable it to drag and drop items -->
+      <!-- Casting $event to $any is a temporary fix for this bug https://github.com/ionic-team/ionic-framework/issues/24245 -->
+      <ion-reorder-group [disabled]="false" (ionItemReorder)="handleReorder($any($event))">
+        <ion-item *ngFor="let item of DaftarSalesItem">
+          <ion-label>{{item.cust_name}}</ion-label>
+          <ion-icon (click)="edit(item.cust_id, item.cust_name, item.cust_type, item.cust_remark, item.nilai_piutang,
+          item.nilai_cicilan, item.nilai_cash, item.item1_qty, item.item2_qty)" slot="end" name="play-outline"></ion-icon>
+          <ion-reorder slot="end"></ion-reorder>
+          <!-- <ion-icon name="play-outline"></ion-icon> -->
+        </ion-item>
+    
+      </ion-reorder-group>
+    </ion-list>
+  </div>
+  <!-- align to the bottom of the page -->
+  <div style="position: absolute; bottom: 0px; width: 100%; padding: 0 10px 10px 10px">
+    <ion-button expand="block" (click)="add()"><b>Add New Customer</b></ion-button>
+</div>
+</ion-content>

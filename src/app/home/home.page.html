@@ -1,0 +1,164 @@
+
+<!-- https://forum.ionicframework.com/t/ion-items-not-clickable-as-button-in-content-of-ion-menu/179115/5 -->
+<ion-menu contentId="main-content" type="overlay">
+  <ion-header>
+    <ion-toolbar>
+      <ion-title>Menu Content</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content class="ion-padding">
+    <ion-list>
+      <ion-menu-toggle>
+        <ion-item button id="btn-finish">Finish</ion-item> 
+      </ion-menu-toggle>
+      <ion-menu-toggle>
+        <ion-item button (click)="history()">History</ion-item>
+      </ion-menu-toggle>
+      <ion-menu-toggle>
+        <ion-item button (click)="changePassword()">Change Password</ion-item>
+      </ion-menu-toggle>
+      <ion-menu-toggle>
+        <ion-item button id="btn-searcprinter" (click)="searchPrinter()">Search Printer</ion-item>
+      </ion-menu-toggle>
+      <ion-menu-toggle>
+        <ion-item button id="btn-signout">Sign Out</ion-item>
+      </ion-menu-toggle>
+    </ion-list>
+  </ion-content>
+</ion-menu>
+<!-- https://ionicframework.com/docs/api/alert#buttons -->
+<ion-alert
+  trigger="btn-finish"
+  header="Do you want to Finish?"
+  [buttons]="buttonFinishAlert"
+></ion-alert>
+<ion-alert
+  trigger="btn-signout"
+  header="Do you want to Sign Out?"
+  [buttons]="buttonSignOutAlert"
+></ion-alert>
+<ion-alert
+  trigger="btn-start"
+  header="Do you want to Start?"
+  [buttons]="buttonStartAlert"
+></ion-alert>
+
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+
+
+    <ion-title><h2>HOME</h2></ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-button id="btn-start" style="width: 90%; margin: 15px 15px 3px 15px; height: 20px;">Start</ion-button>
+  
+  <table style="width: 90%; margin: 10px 15px 15px 20px; font-size:large;">
+    <tr>
+      <td style="width: 25%;">Doc No</td>
+      <td>:</td>
+      <td style="padding-left: 5px">{{ doc_no }}</td>
+    </tr>
+    <tr>
+      <td style="width: 25%;">User</td>
+      <td>:</td>
+      <td style="padding-left: 5px">{{ userlogin }}</td>
+    </tr>
+  </table>
+
+  <!-- <div style="width: 90%; margin: 0 15px 15px 15px; padding-left: 5px">
+    <H3>&nbsp;&nbsp;&nbsp;: A24050001<br>user&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: sales01</H3>
+  </div> -->
+  <table  style="width: 90%; margin: 0px 15px 10px 15px">
+    <tr>
+      <td>
+        <ion-button id="btn-biaya" (click)="biaya()" style="width: 100%; padding-right: 10px">Biaya</ion-button>
+      </td>
+      <td>
+        <ion-button id="btn-sales" (click)="sales()" style="width: 100%; padding-left: 10px;">Sales</ion-button>
+      </td>
+    </tr>
+  </table>
+  
+  <div style="width: 90%; height: 63%; margin: 0px 15px 15px 20px; 
+  background-color: black;
+  overflow: scroll;">
+    <table style="font-size: large;">
+      <tr>
+        <td>
+          <h1>Summary</h1>
+        </td>
+      </tr>
+      <tr>
+        <td style="width: 1%;">
+          Piutang
+        </td>
+        <td style="width: 10%; text-align: left;">
+          :
+        </td>
+        <td style="width: 60%;">
+          {{ sum_piutang }}
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Cicilan
+        </td>
+        <td>
+          :
+        </td>
+        <td>
+          {{ sum_cicilan }}
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Cash
+        </td>
+        <td>
+          :
+        </td>
+        <td>
+          {{ sum_cash }}
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Item 1
+        </td>
+        <td>
+          :
+        </td>
+        <td>
+          {{ sum_item1 }}
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Item 2
+        </td>
+        <td>
+          :
+        </td>
+        <td>
+          {{ sum_item2 }}
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Biaya
+        </td>
+        <td>
+          :
+        </td>
+        <td>
+          {{ sum_biaya }}
+        </td>
+      </tr>
+    </table>
+  </div>
+</ion-content>

@@ -1,0 +1,21 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title><h2>Edit Biaya</h2></ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-list style="padding: 20px 0 0 0;">
+    <ion-item>
+      <ion-textarea [(ngModel)]="input_keterangan" placeholder="isi disini...">Keterangan</ion-textarea>
+    </ion-item>
+    <ion-item>
+      <ion-input [(ngModel)]="input_total_biaya" type="number" placeholder="ketik disini...">Total Biaya</ion-input>
+    </ion-item>
+  </ion-list>
+  <!-- align to the bottom of the page -->
+  <div style="position: absolute; bottom: 0px; width: 100%; padding: 0 10px 10px 10px">
+    <ion-button expand="block" (click)="saveAndBack()"><b>Save</b></ion-button>
+    <ion-button expand="block" (click)="cancel()"><b>Cancel</b></ion-button>
+  </div>
+</ion-content>

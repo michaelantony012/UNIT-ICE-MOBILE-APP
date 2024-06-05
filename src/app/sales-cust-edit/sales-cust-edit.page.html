@@ -1,0 +1,36 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title><h2>Edit Cust {{CustNameDisplay}} ({{sales_cust_id}})</h2></ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-list style="margin: 10px 5px 0 5px;">
+    <ion-list>
+      <ion-item>
+        <ion-input [(ngModel)]="sales_cust_name">Nama</ion-input>
+      </ion-item>
+  
+      <ion-item>
+        <ion-select [(ngModel)]="sales_cust_type" label="Tipe">
+          <ion-select-option value="1">Tetap</ion-select-option>
+          <ion-select-option value="2">Harian</ion-select-option>
+        </ion-select>
+      </ion-item>
+  
+      <ion-item>
+        <ion-textarea [(ngModel)]="sales_cust_remark">Keterangan</ion-textarea>
+      </ion-item>
+  
+    </ion-list>
+  </ion-list>
+
+  <!-- align to the bottom of the page -->
+  <div style="position: absolute; bottom: 0px; width: 100%; padding: 0 10px 10px 10px">
+    <ion-button expand="block" (click)="backAndSave()"><b>Save</b></ion-button>
+    <ion-button expand="block" (click)="cancel()"><b>Cancel</b></ion-button>
+  </div>
+</ion-content>
