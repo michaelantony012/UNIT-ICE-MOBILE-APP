@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Injector, LOCALE_ID } from '@angular/core';
 import { Storage } from '@ionic/storage-angular';
 import { NavController, ToastController, LoadingController } from '@ionic/angular';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-biaya',
@@ -9,12 +10,18 @@ import { NavController, ToastController, LoadingController } from '@ionic/angula
 })
 export class BiayaPage implements OnInit {
   DaftarBiaya : { biaya_id:number, keterangan: string, total_biaya: number }[] = [];
+  
+  localeId: string;
 
   constructor(
     private storage: Storage,
     private loadingController: LoadingController,
     private toastController: ToastController,
-    private nav:NavController) { }
+    private nav:NavController,
+    private route: Router,
+    private injector: Injector) {
+      //https://stackoverflow.com/questions/73580402/how-can-i-by-default-display-decimal-numbers-in-ionic-angular-app-in-correct-loc
+      this.localeId = this.injector.get(LOCALE_ID); }
 
   async ngOnInit() {
     await this.storage.create();
@@ -31,7 +38,7 @@ export class BiayaPage implements OnInit {
   getData(){
     this.storage.get('DaftarBiaya').then((val) => {
       
-      this.DaftarBiaya = JSON.parse(val);
+      this.DaftarBiaya = val;
       // console.log(this.DaftarBiaya);
       // this.presentToast('Your data is here');
     });
@@ -54,6 +61,14 @@ export class BiayaPage implements OnInit {
     loadingIndicator.dismiss();
   }
 
+  async back()
+  {
+    const loadingIndicator = await this.showLoadingIndictator();
+    
+    this.route.navigate(['/home'], { replaceUrl: true });
+    loadingIndicator.dismiss();
+  }
+  
   async delete(biaya_id: number){
     const loadingIndicator = await this.showLoadingIndictator();
     

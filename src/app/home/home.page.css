@@ -1,0 +1,11 @@
+ion-header {
+  background-color: gray;
+}
+
+ion-item[button] {
+  pointer-events: auto !important;
+}
+
+td {
+  padding-bottom: 7px;
+}/*# sourceMappingURL=home.page.css.map */

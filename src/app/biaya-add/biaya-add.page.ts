@@ -11,7 +11,9 @@ import { Router } from '@angular/router';
 export class BiayaAddPage implements OnInit {
   input_keterangan: string = "";
   input_total_biaya: number = 0;
+  input_jenisbiaya_id: number = 0;
   DaftarBiaya : any;
+  DaftarJenisBiaya: any;
 
   constructor(
     private storage: Storage,
@@ -25,25 +27,41 @@ export class BiayaAddPage implements OnInit {
     
     // jika local strg DaftarBiaya kosong, inisialisasi dengan array kosong
     if(await this.storage.get('DaftarBiaya') == null) {
-      this.storage.set('DaftarBiaya', '[]');
+      this.storage.set('DaftarBiaya', []);
     }
+
+    this.DaftarJenisBiaya = await this.storage.get('DaftarJenisBiaya');
+  }
+
+  // https://chatgpt.com/share/6260bdde-646c-4adb-997c-067ed219b185
+  // Remove leading zeros
+  onTotalBiayaChange(event: any): void {
+    let value = event.detail.value;
+
+    // Remove first leading zero
+    if (value.length == 2 && value.startsWith('0')) {
+      value = value.replace(/^0+/, '');
+    }
+
+    // Update the model value
+    this.input_total_biaya = value;
   }
 
   async saveAndBack(){
     // this.storage.set('biaya_edit_id', biaya_id);
     const loadingIndicator = await this.showLoadingIndictator();
 
-    if(this.input_keterangan == "" || this.input_total_biaya == 0)
+    if(this.input_keterangan == "" || (this.input_total_biaya ?? 0) == 0 || this.input_jenisbiaya_id == 0)
     {
       this.presentToast("Harap lengkapi data");
     }
     else
     {
       this.storage.get('DaftarBiaya').then((val) => {
-        this.DaftarBiaya = JSON.parse(val);
+        this.DaftarBiaya = val;
         let biaya_id = this.DaftarBiaya.length;
-        this.DaftarBiaya.push({"biaya_id":biaya_id+1, "keterangan": this.input_keterangan, "total_biaya": this.input_total_biaya});
-        this.storage.set('DaftarBiaya', JSON.stringify(this.DaftarBiaya));
+        this.DaftarBiaya.push({"biaya_id":biaya_id+1, "keterangan": this.input_keterangan, "total_biaya": parseInt((this.input_total_biaya ? this.input_total_biaya : 0).toString()), "jenisbiaya_id": this.input_jenisbiaya_id});
+        this.storage.set('DaftarBiaya', this.DaftarBiaya);
       });
       
       // // https://stackoverflow.com/questions/57915373/to-remove-the-previous-pages-from-stack-in-angular-routing

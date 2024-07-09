@@ -1,6 +1,6 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title><h2>History Sales</h2></ion-title>
+    <ion-title><h2>Riwayat Jual</h2></ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -12,49 +12,82 @@
       <ion-card *ngFor="let item of DaftarHistory">
         <ion-card-header>
           <ion-card-title><div>{{ item.doc_date }}<span style="text-align:right;display:block;float:right;width:50%;">{{ item.doc_no }}</span></div></ion-card-title>
-          <ion-card-subtitle>Finished at : {{ item.finished_at }}</ion-card-subtitle>
+          <ion-card-subtitle>Selesai : {{ item.finished_at }}</ion-card-subtitle>
         </ion-card-header>
       
         <ion-card-content>
           <table style="width: 100%;">
             <tr>
               <td style="width: 20%;">
-                Piutang :
+                B5 :
               </td>
-              <td style="width: 30%;">
-                {{ item.piutang }}
+              <td style="width: 25%; text-align: right;">
+                {{ item.item1_total }}
               </td>
-              <td style="width: 30%;">
-                Item 1 Qty :
-              </td>
+              <td style="width: 10%"></td>
               <td style="width: 20%;">
-                {{ item.item1_qty }}
+                Biaya :
+              </td>
+              <td style="width: 25%; text-align: right;">
+                {{ item.total_biaya }}
               </td>
             </tr>
             <tr>
               <td style="width: 20%;">
-                Cicilan :
+                B10 :
               </td>
-              <td style="width: 30%;">
-                {{ item.cicilan }}
+              <td style="width: 25%; text-align: right;">
+                {{ item.item2_total }}
               </td>
-              <td style="width: 30%;">
-                Item 2 Qty :
-              </td>
-              <td style="width: 20%;">
-                {{ item.item2_qty }}
-              </td>
-            </tr>
-            <tr>
+              <td style="width: 10%"></td>
               <td style="width: 20%;">
                 Cash :
               </td>
-              <td style="width: 30%;">
+              <td style="width: 25%; text-align: right;">
                 {{ item.cash }}
               </td>
-              <td style="width: 30%;">
-              </td>
+            </tr>
+            <tr>
               <td style="width: 20%;">
+                B20 :
+              </td>
+              <td style="width: 25%; text-align: right;">
+                {{ item.item3_total }}
+              </td>
+              <td style="width: 10%"></td>
+              <td style="width: 20%;">
+                BB :
+              </td>
+              <td style="width: 25%; text-align: right;">
+                {{ item.BB }}
+              </td>
+            </tr>
+            <tr>
+              <td style="width: 20%;">
+                K10 :
+              </td>
+              <td style="width: 25%; text-align: right;">
+                {{ item.item4_total }}
+              </td>
+              <td style="width: 10%"></td>
+              <td style="width: 20%;">
+                Credit :
+              </td>
+              <td style="width: 25%; text-align: right;">
+                {{ item.credit }}
+              </td>
+            </tr>
+            <tr>
+              <td style="width: 20%;">
+                C10 :
+              </td>
+              <td style="width: 25%; text-align: right;">
+                {{ item.item5_total }}
+              </td>
+              <td style="width: 10%"></td>
+              <td style="width: 20%;">
+              </td>
+              <td style="width: 25%; text-align: right;">
               </td>
             </tr>
           </table>

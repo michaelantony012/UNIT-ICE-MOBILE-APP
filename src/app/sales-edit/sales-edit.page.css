@@ -1,16 +1,18 @@
 ion-icon {
   font-size: 32px;
 }
-//https://stackoverflow.com/questions/42756322/how-to-make-an-ionic-list-scrollable
-div[scrollx=true],div[scrolly=true] {
+
+div[scrollx=true], div[scrolly=true] {
   position: relative;
   overflow: hidden;
 }
+
 div[scrollx=true] {
- overflow-x: auto;
+  overflow-x: auto;
 }
+
 div[scrolly=true] {
- overflow-y: auto;
+  overflow-y: auto;
 }
 
 .line {
@@ -18,4 +20,4 @@ div[scrolly=true] {
   width: 100%;
   border-top: 0.2px solid white;
   padding-bottom: 10px;
-}
+}/*# sourceMappingURL=sales-edit.page.css.map */

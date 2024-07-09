@@ -1,56 +1,127 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
-    </ion-buttons>
-    <ion-title><h2>Cust {{sales_cust_name}}({{sales_cust_id}})</h2></ion-title>
+    <ion-title><h2>NOTA</h2></ion-title>
     <ion-icon slot="end" (click)="salesCustEdit(sales_cust_id)" name="create-outline"></ion-icon>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-list style="margin: 10px 5px 0 5px;">
-    <ion-list>
-      <!-- <ion-item>
-        <ion-input label="Text input" placeholder="Enter text"></ion-input>
-      </ion-item> -->
-  
-      <ion-item>
-        <ion-input [(ngModel)]="input_piutang" type="number">Piutang</ion-input>
-      </ion-item>
-      
-      <ion-item>
-        <ion-input [(ngModel)]="input_cicilan" type="number">Cicilan</ion-input>
-      </ion-item>
-      
-      <ion-item>
-        <ion-input [(ngModel)]="input_cash" type="number">Cash</ion-input>
-      </ion-item>
-      
-      <ion-item>
-        <ion-input [(ngModel)]="input_item1qty" type="number">Item 1 Qty</ion-input>
-      </ion-item>
-      
-      <ion-item>
-        <ion-input [(ngModel)]="input_item2qty" type="number">Item 2 Qty</ion-input>
-      </ion-item>
-      
+  <!-- //https://stackoverflow.com/questions/42756322/how-to-make-an-ionic-list-scrollable -->
+  <div scrolly="true" style="max-height:84%">
+    <ion-list style="margin: 5px 5px 0 5px;">
+        <!-- <ion-item>
+          <ion-input label="Text input" placeholder="Enter text"></ion-input>
+        </ion-item> -->
+        
+        <ion-item style="padding-bottom: 1px;">
+          <b><ion-input label="Customer :" [(ngModel)]="sales_cust_name" type="text" readonly></ion-input></b>
+        </ion-item>
+        <ion-item style="padding-bottom: 1px;">
+          <b><ion-input label="Nomor Nota :" [(ngModel)]="sales_nomor_nota" type="text" readonly></ion-input></b>
+        </ion-item>
+        
+        <span class='line'></span>
+
+        <!-- <hr style="height:1px;background-color:white;margin: 0 5px 10px 5px;"> -->
+
+        <ion-item style="padding-bottom: 10px; padding-top: 10px;">
+          <ion-input style="width: 27%" [(ngModel)]="input_item1qty" type="number"
+          (ionInput)="onItem1QtyChange($event)">{{ item1_name }} SJE</ion-input>
+          <ion-input style="width: 27%" [(ngModel)]="input_item1qtyfree" type="number"
+          (ionInput)="onItem1QtyFreeChange($event)">{{ item1_name }} Free</ion-input>
+          <ion-input style="width: 26%" [(ngModel)]="input_item1qtyretur" type="number"
+          (ionInput)="onItem1QtyReturChange($event)">{{ item1_name }} Retur</ion-input>
+          <ion-input style="width: 20%; text-align: right;" [(ngModel)]="input_item1price" type="number"
+          (ionInput)="onItem1PriceChange($event)">Price</ion-input>
+          <!-- <ion-input style="width: 40%" [(ngModel)]="input_item1total" type="number" readonly>Total 1</ion-input> -->
+        </ion-item>
+        
+        <ion-item style="padding-bottom: 10px;">
+          <ion-input style="width: 27%" [(ngModel)]="input_item2qty" type="number"
+          (ionInput)="onItem2QtyChange($event)">{{ item2_name }} SJE</ion-input>
+          <ion-input style="width: 27%" [(ngModel)]="input_item2qtyfree" type="number"
+          (ionInput)="onItem2QtyFreeChange($event)">{{ item2_name }} Free</ion-input>
+          <ion-input style="width: 26%" [(ngModel)]="input_item2qtyretur" type="number"
+          (ionInput)="onItem2QtyReturChange($event)">{{ item2_name }} Retur</ion-input>
+          <ion-input style="width: 20%; text-align: right;" [(ngModel)]="input_item2price" type="number"
+          (ionInput)="onItem2PriceChange($event)">Price</ion-input>
+          <!-- <ion-input style="width: 40%" [(ngModel)]="input_item2total" type="number" readonly>Total 2</ion-input> -->
+        </ion-item>
+        
+        <ion-item style="padding-bottom: 10px;">
+          <ion-input style="width: 27%" [(ngModel)]="input_item3qty" type="number"
+          (ionInput)="onItem3QtyChange($event)">{{ item3_name }} SJE</ion-input>
+          <ion-input style="width: 27%" [(ngModel)]="input_item3qtyfree" type="number"
+          (ionInput)="onItem3QtyFreeChange($event)">{{ item3_name }} Free</ion-input>
+          <ion-input style="width: 26%" [(ngModel)]="input_item3qtyretur" type="number"
+          (ionInput)="onItem3QtyReturChange($event)">{{ item3_name }} Retur</ion-input>
+          <ion-input style="width: 20%; text-align: right;" [(ngModel)]="input_item3price" type="number"
+          (ionInput)="onItem3PriceChange($event)">Price</ion-input>
+          <!-- <ion-input style="width: 40%" [(ngModel)]="input_item3total" type="number" readonly>Total 3</ion-input> -->
+        </ion-item>
+        
+        <ion-item style="padding-bottom: 10px;">
+          <ion-input style="width: 27%" [(ngModel)]="input_item4qty" type="number"
+          (ionInput)="onItem4QtyChange($event)">{{ item4_name }} SJE</ion-input>
+          <ion-input style="width: 27%" [(ngModel)]="input_item4qtyfree" type="number"
+          (ionInput)="onItem4QtyFreeChange($event)">{{ item4_name }} Free</ion-input>
+          <ion-input style="width: 26%" [(ngModel)]="input_item4qtyretur" type="number"
+          (ionInput)="onItem4QtyReturChange($event)">{{ item4_name }} Retur</ion-input>
+          <ion-input style="width: 20%; text-align: right;" [(ngModel)]="input_item4price" type="number"
+          (ionInput)="onItem4PriceChange($event)">Price</ion-input>
+          <!-- <ion-input style="width: 40%" [(ngModel)]="input_item4total" type="number" readonly>Total 4</ion-input> -->
+        </ion-item>
+        
+        <ion-item style="padding-bottom: 10px;">
+          <ion-input style="width: 27%" [(ngModel)]="input_item5qty" type="number"
+          (ionInput)="onItem5QtyChange($event)">{{ item5_name }} Qty</ion-input>
+          <ion-input style="width: 27%" [(ngModel)]="input_item5qtyfree" type="number"
+          (ionInput)="onItem5QtyFreeChange($event)">{{ item5_name }} Free</ion-input>
+          <ion-input style="width: 26%" [(ngModel)]="input_item5qtyretur" type="number"
+          (ionInput)="onItem5QtyReturChange($event)">{{ item5_name }} Retur</ion-input>
+          <ion-input style="width: 20%; text-align: right;" [(ngModel)]="input_item5price" type="number"
+          (ionInput)="onItem5PriceChange($event)">Price</ion-input>
+          <!-- <ion-input style="width: 40%" [(ngModel)]="input_item5total" type="number" readonly>Total 5</ion-input> -->
+        </ion-item>
+        
+        <ion-item style="padding-bottom: 10px;">
+          <ion-input style="width: 27%; font-weight: bold;" [(ngModel)]="input_totalkeseluruhan" type="text" readonly>Total SJE</ion-input>
+          <ion-input style="width: 27%; font-weight: bold;" [(ngModel)]="input_totalfree" type="text" readonly>Total Free</ion-input>
+          <ion-input style="width: 46%; font-weight: bold;" [(ngModel)]="input_totalretur" type="text" readonly>Total Retur</ion-input>
+        </ion-item>
+        
+        <!-- <hr style="height:1px;background-color:white;margin: 0 5px 10px 5px;"> -->
+         
+        <span class='line'></span>
+        
+        <ion-item style="padding-bottom: 10px;">
+          <ion-input [(ngModel)]="input_cash" (ionInput)="onCashChange($event)" type="text">Cash</ion-input>
+        </ion-item>
+        
+        <ion-item style="padding-bottom: 10px;">
+          <ion-input [(ngModel)]="input_BB" (ionInput)="onBBChange($event)" type="text">BB</ion-input>
+        </ion-item>
+        
+        <ion-item style="padding-bottom: 10px;">
+          <ion-input [(ngModel)]="input_credit" (ionInput)="onCreditChange($event)" type="text">Credit</ion-input>
+        </ion-item>
+        
     </ion-list>
-  </ion-list>
+  </div>
   <!-- align to the bottom of the page -->
   <div style="position: absolute; bottom: 0px; width: 100%; padding: 0 10px 10px 10px">
     <table style="width: 100%;">
       <tr>
         <td>
-          <ion-button expand="block" (click)="backAndSave()"><b>Save</b></ion-button>
+          <ion-button expand="block" (click)="saveOnly()"><b>Simpan</b></ion-button>
         </td>
         <td>
-          <ion-button expand="block" (click)="print()"><b>Print</b></ion-button>
+          <ion-button expand="block" (click)="saveAndPrint()"><b>Print</b></ion-button>
         </td>
       </tr>
       <tr>
         <td colspan="2">
-          <ion-button expand="block" (click)="cancel()"><b>Cancel</b></ion-button>
+          <ion-button expand="block" (click)="saveAndBack()"><b>Simpan dan Kembali</b></ion-button>
         </td>
       </tr>
     </table>

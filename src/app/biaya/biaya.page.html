@@ -6,10 +6,10 @@
 
 <ion-content [fullscreen]="true">
   <!-- //https://stackoverflow.com/questions/42756322/how-to-make-an-ionic-list-scrollable -->
-  <div scrolly="true" style="max-height:87%">
+  <div scrolly="true" style="max-height:92%">
     <ion-list> <!-- [inset]="true" lines="full" -->
       <ion-item *ngFor="let item of DaftarBiaya">
-        <ion-label>{{item.keterangan}}, {{ item.total_biaya }}</ion-label>
+        <ion-label>{{item.keterangan}}, Rp {{ item.total_biaya | number: '1.0-3':localeId }}</ion-label>
         <ion-icon (click)="edit(item.biaya_id)" slot="end" name="play-outline"></ion-icon>
         <ion-icon (click)="delete(item.biaya_id)" slot="end" name="trash-outline"></ion-icon>
         <!-- <ion-icon name="play-outline"></ion-icon> -->
@@ -18,6 +18,15 @@
   </div>
   <!-- align to the bottom of the page -->
   <div style="position: absolute; bottom: 0px; width: 100%; padding: 0 10px 10px 10px">
-    <ion-button expand="block" (click)="add()"><b>Add</b></ion-button>
-</div>
+    <table style="width: 100%;">
+      <tr>
+        <td style="width: 50%;">
+          <ion-button expand="block" (click)="add()"><b>Tambah</b></ion-button>
+        </td>
+        <td style="width: 50%;">
+          <ion-button expand="block" (click)="back()"><b>Kembali</b></ion-button>
+        </td>
+      </tr>
+    </table>
+  </div>
 </ion-content>

@@ -3,22 +3,22 @@
 <ion-menu contentId="main-content" type="overlay">
   <ion-header>
     <ion-toolbar>
-      <ion-title>Menu Content</ion-title>
+      <ion-title>Menu</ion-title>
     </ion-toolbar>
   </ion-header>
   <ion-content class="ion-padding">
     <ion-list>
       <ion-menu-toggle>
-        <ion-item button id="btn-finish">Finish</ion-item> 
+        <ion-item button id="btn-finish">Selesai</ion-item> 
       </ion-menu-toggle>
       <ion-menu-toggle>
-        <ion-item button (click)="history()">History</ion-item>
+        <ion-item button (click)="history()">Riwayat</ion-item>
       </ion-menu-toggle>
       <ion-menu-toggle>
-        <ion-item button (click)="changePassword()">Change Password</ion-item>
+        <ion-item button (click)="changePassword()">Ganti Password</ion-item>
       </ion-menu-toggle>
       <ion-menu-toggle>
-        <ion-item button id="btn-searcprinter" (click)="searchPrinter()">Search Printer</ion-item>
+        <ion-item button id="btn-searcprinter" (click)="searchPrinter()">Cari Printer</ion-item>
       </ion-menu-toggle>
       <ion-menu-toggle>
         <ion-item button id="btn-signout">Sign Out</ion-item>
@@ -29,17 +29,17 @@
 <!-- https://ionicframework.com/docs/api/alert#buttons -->
 <ion-alert
   trigger="btn-finish"
-  header="Do you want to Finish?"
+  header="Anda yakin untuk selesai?"
   [buttons]="buttonFinishAlert"
 ></ion-alert>
 <ion-alert
   trigger="btn-signout"
-  header="Do you want to Sign Out?"
+  header="Anda yakin akan Sign Out?"
   [buttons]="buttonSignOutAlert"
 ></ion-alert>
 <ion-alert
   trigger="btn-start"
-  header="Do you want to Start?"
+  header="Anda yakin mau memulai?"
   [buttons]="buttonStartAlert"
 ></ion-alert>
 
@@ -50,16 +50,16 @@
     </ion-buttons>
 
 
-    <ion-title><h2>HOME</h2></ion-title>
+    <ion-title><h2>Halaman Utama</h2></ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-button id="btn-start" style="width: 90%; margin: 15px 15px 3px 15px; height: 20px;">Start</ion-button>
+  <ion-button id="btn-start" style="width: 90%; margin: 15px 15px 3px 15px; height: 20px;">MULAI</ion-button>
   
   <table style="width: 90%; margin: 10px 15px 15px 20px; font-size:large;">
     <tr>
-      <td style="width: 25%;">Doc No</td>
+      <td style="width: 25%;">Doc. No</td>
       <td>:</td>
       <td style="padding-left: 5px">{{ doc_no }}</td>
     </tr>
@@ -75,77 +75,57 @@
   </div> -->
   <table  style="width: 90%; margin: 0px 15px 10px 15px">
     <tr>
-      <td>
+      <td style="width: 50%">
         <ion-button id="btn-biaya" (click)="biaya()" style="width: 100%; padding-right: 10px">Biaya</ion-button>
       </td>
-      <td>
-        <ion-button id="btn-sales" (click)="sales()" style="width: 100%; padding-left: 10px;">Sales</ion-button>
+      <td style="width: 50%">
+        <ion-button id="btn-sales" (click)="sales()" style="width: 100%; padding-left: 10px;">PENJUALAN</ion-button>
       </td>
     </tr>
   </table>
   
-  <div style="width: 90%; height: 63%; margin: 0px 15px 15px 20px; 
+  <div *ngIf="doc_no !== ''"
+  style="width: 90%; height: 63%; margin: 0px 15px 15px 20px; 
   background-color: black;
-  overflow: scroll;">
-    <table style="font-size: large;">
+  overflow: scroll;"
+  >
+    <h1 >Summary</h1>
+    <table *ngIf="doc_no !== ''" style="font-size: large; width: 100%;">
       <tr>
         <td>
-          <h1>Summary</h1>
         </td>
       </tr>
       <tr>
-        <td style="width: 1%;">
-          Piutang
+        <td style="width: 35%;">
+          Cash
         </td>
         <td style="width: 10%; text-align: left;">
           :
         </td>
-        <td style="width: 60%;">
-          {{ sum_piutang }}
+        <td style="width: 45%;">
+          {{ sum_cash | number: '':'en' }}
         </td>
       </tr>
       <tr>
         <td>
-          Cicilan
+          BB
         </td>
         <td>
           :
         </td>
         <td>
-          {{ sum_cicilan }}
+          {{ sum_BB | number: '':'en' }}
         </td>
       </tr>
       <tr>
         <td>
-          Cash
+          Credit
         </td>
         <td>
           :
         </td>
         <td>
-          {{ sum_cash }}
-        </td>
-      </tr>
-      <tr>
-        <td>
-          Item 1
-        </td>
-        <td>
-          :
-        </td>
-        <td>
-          {{ sum_item1 }}
-        </td>
-      </tr>
-      <tr>
-        <td>
-          Item 2
-        </td>
-        <td>
-          :
-        </td>
-        <td>
-          {{ sum_item2 }}
+          {{ sum_credit | number: '':'en' }}
         </td>
       </tr>
       <tr>
@@ -156,7 +136,172 @@
           :
         </td>
         <td>
-          {{ sum_biaya }}
+          {{ sum_biaya | number: '':'en' }}
+        </td>
+      </tr>
+      <tr>
+        <td>
+          B5
+        </td>
+        <td>
+          :
+        </td>
+        <td>
+          {{ sum_item1 | number: '':'en' }}
+        </td>
+      </tr>
+      <tr>
+        <td>
+          B5 - Free
+        </td>
+        <td>
+          :
+        </td>
+        <td>
+          {{ sum_item1free | number: '':'en' }}
+        </td>
+      </tr>
+      <tr>
+        <td>
+          B5 - Retur
+        </td>
+        <td>
+          :
+        </td>
+        <td>
+          {{ sum_item1retur | number: '':'en' }}
+        </td>
+      </tr>
+      <tr>
+        <td>
+          B10
+        </td>
+        <td>
+          :
+        </td>
+        <td>
+          {{ sum_item2 | number: '':'en' }}
+        </td>
+      </tr>
+      <tr>
+        <td>
+          B10 - Free
+        </td>
+        <td>
+          :
+        </td>
+        <td>
+          {{ sum_item2free | number: '':'en' }}
+        </td>
+      </tr>
+      <tr>
+        <td>
+          B10 - Retur
+        </td>
+        <td>
+          :
+        </td>
+        <td>
+          {{ sum_item2retur | number: '':'en' }}
+        </td>
+      </tr>
+      <tr>
+        <td>
+          B20
+        </td>
+        <td>
+          :
+        </td>
+        <td>
+          {{ sum_item3 | number: '':'en' }}
+        </td>
+      </tr>
+      <tr>
+        <td>
+          B20 - Free
+        </td>
+        <td>
+          :
+        </td>
+        <td>
+          {{ sum_item3free | number: '':'en' }}
+        </td>
+      </tr>
+      <tr>
+        <td>
+          B20 - Retur
+        </td>
+        <td>
+          :
+        </td>
+        <td>
+          {{ sum_item3retur | number: '':'en' }}
+        </td>
+      </tr>
+      <tr>
+        <td>
+          K10
+        </td>
+        <td>
+          :
+        </td>
+        <td>
+          {{ sum_item4 | number: '':'en' }}
+        </td>
+      </tr>
+      <tr>
+        <td>
+          K10 - Free
+        </td>
+        <td>
+          :
+        </td>
+        <td>
+          {{ sum_item4free | number: '':'en' }}
+        </td>
+      </tr>
+      <tr>
+        <td>
+          K10 - Retur
+        </td>
+        <td>
+          :
+        </td>
+        <td>
+          {{ sum_item4retur | number: '':'en' }}
+        </td>
+      </tr>
+      <tr>
+        <td>
+          C10
+        </td>
+        <td>
+          :
+        </td>
+        <td>
+          {{ sum_item5 | number: '':'en' }}
+        </td>
+      </tr>
+      <tr>
+        <td>
+          C10 - Free
+        </td>
+        <td>
+          :
+        </td>
+        <td>
+          {{ sum_item5free | number: '':'en' }}
+        </td>
+      </tr>
+      <tr>
+        <td>
+          C10 - Retur
+        </td>
+        <td>
+          :
+        </td>
+        <td>
+          {{ sum_item5retur | number: '':'en' }}
         </td>
       </tr>
     </table>

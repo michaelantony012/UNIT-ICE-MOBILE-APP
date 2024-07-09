@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ItemReorderEventDetail } from '@ionic/angular';
 import { Storage } from '@ionic/storage-angular';
 import { NavController, ToastController, LoadingController } from '@ionic/angular';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-sales',
@@ -11,7 +12,12 @@ import { NavController, ToastController, LoadingController } from '@ionic/angula
 export class SalesPage implements OnInit {
   // ItemList : { order:number, cust_id:number, cust_name: string }[] = [{"order": 3, "cust_id":3, "cust_name": 'Cust Tiga'},{"order": 2, "cust_id": 2, "cust_name":'Cust Dua'},{"order": 1, "cust_id":1, "cust_name":'Cust Satu'}];
   DaftarSalesItem : {cust_order: number, cust_id: number, cust_name: string, cust_remark: string, cust_type: number,
-    nilai_piutang: number, nilai_cicilan: number, nilai_cash: number, item1_qty: number, item2_qty: number, cust_edited: number}[] = [];
+    nilai_cash: number, nilai_BB: number, nilai_credit: number,
+    item1_qty: number, item2_qty: number, item3_qty: number, item4_qty: number, item5_qty: number,
+    item1_qtyfree: number, item2_qtyfree: number, item3_qtyfree: number, item4_qtyfree: number, item5_qtyfree: number,
+    item1_qtyretur: number, item2_qtyretur: number, item3_qtyretur: number, item4_qtyretur: number, item5_qtyretur: number,
+    item1_price: number, item2_price: number, item3_price: number, item4_price: number, item5_price: number,
+    cust_edited: number, cust_added: number, nomor_nota: string}[] = [];
     /*=
     [
       {cust_order: 1, cust_id: 1, cust_name: "customer satu", cust_remark: "ini keterangan", cust_type: 1, nilai_piutang: 100000, nilai_cicilan: 10000, nilai_cash: 100000, item1_qty: 20, item2_qty: 35, cust_edited: 0},
@@ -24,6 +30,7 @@ export class SalesPage implements OnInit {
     private storage: Storage,
     private loadingController: LoadingController,
     private toastController: ToastController,
+    private route: Router,
     private nav:NavController) { }
 
   async ngOnInit() {
@@ -39,6 +46,14 @@ export class SalesPage implements OnInit {
   {
     const loadingIndicator = await this.showLoadingIndictator();
     this.nav.navigateForward('/sales-cust-add');
+    loadingIndicator.dismiss();
+  }
+
+  async back()
+  {
+    const loadingIndicator = await this.showLoadingIndictator();
+    
+    this.route.navigate(['/home'], { replaceUrl: true });
     loadingIndicator.dismiss();
   }
 
@@ -83,18 +98,42 @@ export class SalesPage implements OnInit {
   }
 
 
-  async edit(cust_id: number, cust_name: string, cust_type: number, cust_remark: string, nilai_piutang: number,
-    nilai_cicilan: number, nilai_cash: number, item1_qty: number, item2_qty: number){
+  async edit(cust_id: number, cust_name: string, cust_type: number, cust_remark: string,
+    nilai_cash: number, nilai_BB: number, nilai_credit: number,
+    item1_qty: number, item2_qty: number, item3_qty: number, item4_qty: number, item5_qty: number,
+    item1_qtyfree: number, item2_qtyfree: number, item3_qtyfree: number, item4_qtyfree: number, item5_qtyfree: number,
+    item1_qtyretur: number, item2_qtyretur: number, item3_qtyretur: number, item4_qtyretur: number, item5_qtyretur: number,
+    item1_price: number, item2_price: number, item3_price: number, item4_price: number, item5_price: number,
+    nomor_nota: string){
     // console.log(cust_id);
     this.storage.set('sales_cust_id', cust_id);
     this.storage.set('sales_cust_name', cust_name);
     this.storage.set('sales_cust_type', cust_type);
     this.storage.set('sales_cust_remark', cust_remark);
-    this.storage.set('sales_nilai_piutang', nilai_piutang);
-    this.storage.set('sales_nilai_cicilan', nilai_cicilan);
+    this.storage.set('sales_nomor_nota', nomor_nota);
     this.storage.set('sales_nilai_cash', nilai_cash);
+    this.storage.set('sales_nilai_BB', nilai_BB);
+    this.storage.set('sales_nilai_credit', nilai_credit);
     this.storage.set('sales_nilai_item1qty', item1_qty);
     this.storage.set('sales_nilai_item2qty', item2_qty);
+    this.storage.set('sales_nilai_item3qty', item3_qty);
+    this.storage.set('sales_nilai_item4qty', item4_qty);
+    this.storage.set('sales_nilai_item5qty', item5_qty);
+    this.storage.set('sales_nilai_item1qtyfree', item1_qtyfree);
+    this.storage.set('sales_nilai_item2qtyfree', item2_qtyfree);
+    this.storage.set('sales_nilai_item3qtyfree', item3_qtyfree);
+    this.storage.set('sales_nilai_item4qtyfree', item4_qtyfree);
+    this.storage.set('sales_nilai_item5qtyfree', item5_qtyfree);
+    this.storage.set('sales_nilai_item1qtyretur', item1_qtyretur);
+    this.storage.set('sales_nilai_item2qtyretur', item2_qtyretur);
+    this.storage.set('sales_nilai_item3qtyretur', item3_qtyretur);
+    this.storage.set('sales_nilai_item4qtyretur', item4_qtyretur);
+    this.storage.set('sales_nilai_item5qtyretur', item5_qtyretur);
+    this.storage.set('sales_nilai_item1price', item1_price);
+    this.storage.set('sales_nilai_item2price', item2_price);
+    this.storage.set('sales_nilai_item3price', item3_price);
+    this.storage.set('sales_nilai_item4price', item4_price);
+    this.storage.set('sales_nilai_item5price', item5_price);
     const loadingIndicator = await this.showLoadingIndictator();
     this.nav.navigateForward('/sales-edit');
     loadingIndicator.dismiss();

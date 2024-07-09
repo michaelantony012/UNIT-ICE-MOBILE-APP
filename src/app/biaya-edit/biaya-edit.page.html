@@ -10,12 +10,19 @@
       <ion-textarea [(ngModel)]="input_keterangan" placeholder="isi disini...">Keterangan</ion-textarea>
     </ion-item>
     <ion-item>
-      <ion-input [(ngModel)]="input_total_biaya" type="number" placeholder="ketik disini...">Total Biaya</ion-input>
+      <ion-input [(ngModel)]="input_total_biaya" type="number" (ionInput)="onTotalBiayaChange($event)" placeholder="ketik disini...">Total Biaya</ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-select [(ngModel)]="input_jenisbiaya_id" interface="popover" label="Jenis Biaya">
+        <ion-select-option *ngFor="let item of DaftarJenisBiaya" [value]="item.jenisbiaya_id">
+          {{ item.jenisbiaya_name }}
+        </ion-select-option>
+      </ion-select>
     </ion-item>
   </ion-list>
   <!-- align to the bottom of the page -->
   <div style="position: absolute; bottom: 0px; width: 100%; padding: 0 10px 10px 10px">
-    <ion-button expand="block" (click)="saveAndBack()"><b>Save</b></ion-button>
-    <ion-button expand="block" (click)="cancel()"><b>Cancel</b></ion-button>
+    <ion-button expand="block" (click)="saveAndBack()"><b>Simpan</b></ion-button>
+    <ion-button expand="block" (click)="cancel()"><b>Batal</b></ion-button>
   </div>
 </ion-content>

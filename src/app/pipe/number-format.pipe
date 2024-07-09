@@ -1,0 +1,16 @@
+import { Pipe, PipeTransform } from '@angular/core';
+
+@Pipe({
+  name: 'numberFormat'
+})
+export class NumberFormatPipe implements PipeTransform {
+  transform(value: number | string): string {
+    if (!value) return '';
+    
+    // Convert the value to a number
+    const numberValue = typeof value === 'string' ? parseFloat(value) : value;
+
+    // Format the number
+    return new Intl.NumberFormat('en-US', { maximumFractionDigits: 0 }).format(numberValue);
+  }
+}
