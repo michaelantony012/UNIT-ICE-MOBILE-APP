@@ -798,9 +798,18 @@ export class SalesEditPage implements OnInit {
       await this.VerifyAndEnabled();
       await this.Initialize();
   
-      await BleClient.connect(this.deviceId, this.Disconnect);
+      try {
+        await BleClient.connect(this.deviceId, this.Disconnect);
+      }
+      catch (error) {
+        this.presentToast('Koneksi dengan Printer gagal!');
+        loadingIndicator.dismiss();
+      }
+
+      // loadingIndicator2 = await this.showLoadingIndictator();
       await this.AssignServices();
       this.presentToast('Koneksi dengan Printer berhasil');
+      
     }
 
     // console.log('Yes man!');
@@ -991,12 +1000,14 @@ export class SalesEditPage implements OnInit {
   }
 
   async AssignServices() {
+    console.log('AssignServices -- start')
     const deviceId = await this.storage.get('SYS_PRINTER_DEVICE_ID');
     let bleService: BleService[] = await BleClient.getServices(deviceId);
     if (bleService.length > 0 && bleService[0].characteristics.length > 0) {
       this.storage.set('SYS_PRINTER_SERVICE_UUID', bleService[0].uuid);
       this.storage.set('SYS_PRINTER_CHARACTERISTIC_UUID', bleService[0].characteristics[0].uuid);
     }
+    console.log('AssignServices -- end')
   }
 
   async Initialize() {

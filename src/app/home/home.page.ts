@@ -169,6 +169,18 @@ export class HomePage implements OnInit {
       this.sum_item4 = 0;
       this.sum_item5 = 0;
       this.sum_biaya = 0;
+      
+      this.sum_item1free = 0;
+      this.sum_item2free = 0;
+      this.sum_item3free = 0;
+      this.sum_item4free = 0;
+      this.sum_item5free = 0;
+      
+      this.sum_item1retur = 0;
+      this.sum_item2retur = 0;
+      this.sum_item3retur = 0;
+      this.sum_item4retur = 0;
+      this.sum_item5retur = 0;
 
       if(this.DaftarSalesItem !== null)
       {

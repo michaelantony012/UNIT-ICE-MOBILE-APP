@@ -99,6 +99,9 @@ export class SalesCustEditPage implements OnInit {
             }
 
         });
+        this.storage.set('sales_cust_name', sales_cust_name);
+        this.storage.set('sales_cust_type', parseInt(sales_cust_type));
+        this.storage.set('sales_cust_remark', sales_cust_remark);
         
         this.storage.set('DaftarSalesItem',this.DaftarSalesItem);
         
