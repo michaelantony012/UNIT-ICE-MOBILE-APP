@@ -38,6 +38,7 @@
   [buttons]="buttonSignOutAlert"
 ></ion-alert>
 <ion-alert
+  *ngIf="doc_no == '' && start00flag==1"
   trigger="btn-start"
   header="Anda yakin mau memulai?"
   [buttons]="buttonStartAlert"
@@ -55,7 +56,7 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-button id="btn-start" style="width: 90%; margin: 15px 15px 3px 15px; height: 20px;">MULAI</ion-button>
+  <ion-button id="btn-start00" (click)="start00()" style="width: 90%; margin: 15px 15px 3px 15px; height: 20px;">MULAI</ion-button>
   
   <table style="width: 90%; margin: 10px 15px 15px 20px; font-size:large;">
     <tr>
@@ -83,6 +84,43 @@
       </td>
     </tr>
   </table>
+<!--  -->
+  <div *ngIf="doc_no == '' && start00flag==1"
+  style="margin: 0px 15px 15px 20px; "
+  id="start00_form">
+    <ion-list>
+      <ion-item>
+        <ion-select [(ngModel)]="sales_id1" interface="popover" label="Pilih Sales 1 *">
+          <ion-select-option *ngFor="let item of DaftarMarketing" [value]="item.sales_id">
+            {{ item.sales_name }}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-select [(ngModel)]="sales_id2" interface="popover" label="Pilih Sales 2 *">
+          <ion-select-option *ngFor="let item of DaftarMarketing" [value]="item.sales_id">
+            {{ item.sales_name }}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-select [(ngModel)]="sales_id3" interface="popover" label="Pilih Sales 3 (opsional)">
+          <ion-select-option *ngFor="let item of DaftarMarketing" [value]="item.sales_id">
+            {{ item.sales_name }}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-select [(ngModel)]="truck_id" interface="popover" label="Pilih Truck *">
+          <ion-select-option *ngFor="let item of DaftarTruck" [value]="item.truck_id">
+            {{ item.truck_nopol }}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+        <ion-button id="btn-start" style="width: 90%; margin: 15px 15px 3px 15px; height: 20px;">MULAI</ion-button>
+        <ion-button id="btn-cancelstart" (click)="cancelStart()" style="width: 90%; margin: 10px 15px 3px 15px; height: 20px;">BATAL</ion-button>
+    </ion-list>
+  </div>
   
   <div *ngIf="doc_no !== ''"
   style="width: 90%; height: 63%; margin: 0px 15px 15px 20px; 

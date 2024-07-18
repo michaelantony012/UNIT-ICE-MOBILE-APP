@@ -14,6 +14,7 @@ import en from '@angular/common/locales/en';
 })
 export class HomePage implements OnInit {
   dataSalesStart: any;
+  dataSalesStart00: any;
   userlogin: any;
   doc_no: any = '';
   dataLogout: any = '';
@@ -55,6 +56,15 @@ export class HomePage implements OnInit {
   item5_desc: string = '';
   
   localeId: string;
+
+  DaftarMarketing : { sales_id: number, sales_name: string, sales_no: string }[] = [];
+  DaftarTruck : { truck_id: number, truck_nopol: string }[] = [];
+
+  sales_id1: number = 0;
+  sales_id2: number = 0;
+  sales_id3: number = 0;
+  truck_id: number = 0;
+  start00flag: number = 0;
 
   // Confirmation Dialog untuk Finish button
   // https://ionicframework.com/docs/api/alert#buttons
@@ -139,7 +149,7 @@ export class HomePage implements OnInit {
     }
     else
     {
-      (<HTMLInputElement> document.getElementById("btn-start")).disabled = true;
+      (<HTMLInputElement> document.getElementById("btn-start00")).disabled = true;
 
       // get summary data
       await this.storage.get('DaftarSalesItem').then((val) => {
@@ -292,48 +302,122 @@ export class HomePage implements OnInit {
     await loadingIndicator.present();
     return loadingIndicator;
   }
-  async start(){
+  async start00()
+  {
     const loading = await this.loadingController.create({
       cssClass: 'loading-custom',
       message: 'Please wait...'
     });
     await loading.present(); 
-    
+
     const tokenapps = await this.storage.get('userlogin_tokenapps');
     // console.log(tokenapps);
     var formData : FormData = new FormData();
     formData.set('tokenapps', tokenapps);
 
-    this.http.post('https://project.graylite.com/unitice/mobile/start.php', formData)
+    this.http.post('https://project.graylite.com/unitice/mobile/start_00.php', formData)
     .subscribe((data) => {
       // console.log('data', data);
-      this.dataSalesStart=data;
-      if(this.dataSalesStart.error==true){
-        this.presentToast(this.dataSalesStart.message);
+      this.dataSalesStart00=data;
+      if(this.dataSalesStart00.error==true){
+        this.presentToast(this.dataSalesStart00.message);
       }else{
-        this.presentToast(this.dataSalesStart.message);
-        this.storage.set('doc_no', this.dataSalesStart.doc_no);
-        this.storage.set('doc_id',this.dataSalesStart.doc_id);
-        this.storage.set('doc_no_nota', this.dataSalesStart.doc_no_nota);
-        this.storage.set('doc_kode_nota_terakhir', 0);
-        this.storage.set('DaftarSalesItem',this.dataSalesStart.DaftarSalesItem);
-        this.storage.set('DaftarJenisBiaya',this.dataSalesStart.DaftarJenisBiaya);
-        this.storage.set('DaftarNamaItem',this.dataSalesStart.DaftarNamaItem);
-        this.doc_no = this.dataSalesStart.doc_no;
-
-        
-        (<HTMLInputElement> document.getElementById("btn-sales")).disabled = false;
-        (<HTMLInputElement> document.getElementById("btn-biaya")).disabled = false;
-        (<HTMLInputElement> document.getElementById("btn-start")).disabled = true;
-        (<HTMLInputElement> document.getElementById("btn-finish")).disabled = false;
+        this.presentToast(this.dataSalesStart00.message);
+        this.DaftarMarketing=this.dataSalesStart00.DaftarMarketing;
+        this.DaftarTruck=this.dataSalesStart00.DaftarTruck;
       }
       loading.dismiss();
+  
+      this.start00flag = 1;
+      (<HTMLInputElement> document.getElementById("btn-start00")).disabled = true;
     },
     error => {
       let message='Failed to sync data, please re-open App!';
         this.presentToast(message);
         loading.dismiss();
     });
+
+    loading.dismiss();
+  }
+
+  async start(){
+    const loading = await this.loadingController.create({
+      cssClass: 'loading-custom',
+      message: 'Please wait...'
+    });
+    await loading.present(); 
+
+    if(this.sales_id1==0 || this.sales_id2==0 || this.truck_id==0)
+    {
+      this.presentToast("Anda belum memilih Sales / Truck!");
+    }
+    else
+    {
+      const tokenapps = await this.storage.get('userlogin_tokenapps');
+      // console.log(tokenapps);
+      var formData : FormData = new FormData();
+      formData.set('tokenapps', tokenapps);
+      formData.set('sales_id1', this.sales_id1.toString());
+      formData.set('sales_id2', this.sales_id2.toString());
+      formData.set('sales_id3', this.sales_id3.toString());
+      formData.set('truck_id', this.truck_id.toString());
+
+      this.http.post('https://project.graylite.com/unitice/mobile/start.php', formData)
+      .subscribe((data) => {
+        // console.log('data', data);
+        this.dataSalesStart=data;
+        if(this.dataSalesStart.error==true){
+          this.presentToast(this.dataSalesStart.message);
+        }else{
+          this.presentToast(this.dataSalesStart.message);
+          this.storage.set('doc_no', this.dataSalesStart.doc_no);
+          this.storage.set('doc_id',this.dataSalesStart.doc_id);
+          this.storage.set('doc_no_nota', this.dataSalesStart.doc_no_nota);
+          this.storage.set('doc_kode_nota_terakhir', 0);
+          this.storage.set('DaftarSalesItem',this.dataSalesStart.DaftarSalesItem);
+          this.storage.set('DaftarJenisBiaya',this.dataSalesStart.DaftarJenisBiaya);
+          this.storage.set('DaftarNamaItem',this.dataSalesStart.DaftarNamaItem);
+          this.doc_no = this.dataSalesStart.doc_no;
+
+          
+          (<HTMLInputElement> document.getElementById("btn-sales")).disabled = false;
+          (<HTMLInputElement> document.getElementById("btn-biaya")).disabled = false;
+          (<HTMLInputElement> document.getElementById("btn-start00")).disabled = true;
+          (<HTMLInputElement> document.getElementById("btn-finish")).disabled = false;
+          this.start00flag=0;
+
+          this.sales_id1=0;
+          this.sales_id2=0;
+          this.sales_id3=0;
+          this.truck_id=0;
+        }
+        loading.dismiss();
+      },
+      error => {
+        let message='Failed to sync data, please re-open App!';
+          this.presentToast(message);
+          loading.dismiss();
+      });
+    }
+
+    loading.dismiss();
+  }
+
+  async cancelStart(){
+    const loading = await this.loadingController.create({
+      cssClass: 'loading-custom',
+      message: 'Please wait...'
+    });
+    await loading.present(); 
+    
+    this.start00flag=0;
+
+    this.sales_id1=0;
+    this.sales_id2=0;
+    this.sales_id3=0;
+    this.truck_id=0;
+
+    (<HTMLInputElement> document.getElementById("btn-start00")).disabled = false;
 
     loading.dismiss();
   }
@@ -388,7 +472,7 @@ export class HomePage implements OnInit {
 
         (<HTMLInputElement> document.getElementById("btn-sales")).disabled = true;
         (<HTMLInputElement> document.getElementById("btn-biaya")).disabled = true;
-        (<HTMLInputElement> document.getElementById("btn-start")).disabled = false;
+        (<HTMLInputElement> document.getElementById("btn-start00")).disabled = false;
         (<HTMLInputElement> document.getElementById("btn-finish")).disabled = true;
       }
       loading.dismiss();
