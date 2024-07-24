@@ -51,21 +51,21 @@ export class LoginPage implements OnInit {
     formData.set('password',this.input_password);
 
     this.http.post('https://project.graylite.com/unitice/mobile/login.php', formData)
-    .subscribe((data) => {
+    .subscribe(async (data) => {
       // console.log('data', data);
       this.dataLogin=data;
       if(this.dataLogin.error==true){
         this.presentToast(this.dataLogin.message);
       }else{
         this.presentToast(this.dataLogin.message);
-        this.storage.set('userlogin_userlogin', this.dataLogin.user_login);
-        this.storage.set('userlogin_tanggal',this.dataLogin.tanggal);
-        this.storage.set('userlogin_tokenapps', this.dataLogin.tokenjwt);
-        this.storage.set('userlogin_ccid',this.dataLogin.cc_id);
-        this.storage.set('userlogin_routeno',this.dataLogin.route_no);
-        this.storage.set('userlogin_wareid',this.dataLogin.ware_id);
-        this.storage.set('userlogin_warename',this.dataLogin.ware_name);
-        this.storage.set('userlogin_warecity',this.dataLogin.ware_city);
+        await this.storage.set('userlogin_userlogin', this.dataLogin.user_login);
+        await this.storage.set('userlogin_tanggal',this.dataLogin.tanggal);
+        await this.storage.set('userlogin_tokenapps', this.dataLogin.tokenjwt);
+        await this.storage.set('userlogin_ccid',this.dataLogin.cc_id);
+        await this.storage.set('userlogin_routeno',this.dataLogin.route_no);
+        await this.storage.set('userlogin_wareid',this.dataLogin.ware_id);
+        await this.storage.set('userlogin_warename',this.dataLogin.ware_name);
+        await this.storage.set('userlogin_warecity',this.dataLogin.ware_city);
         
         this.router.navigate(['/home'], { replaceUrl: true });
       }
