@@ -11,7 +11,10 @@ import { Storage } from '@ionic/storage-angular';
 })
 export class SalesHistoryPage implements OnInit {
   dataHistory: any;
-  DaftarHistory : {finished_at: string, doc_date: string, doc_no: string, cash: string, BB: string, credit: string,
+  DaftarHistory : {started_at: string, finished_at: string, doc_date: string, doc_no: string,
+    route_name: string, truck_nopol: string, sales_name1: string, sales_name2: string, sales_name3: string,
+    cash: string, BB: string,
+    tagihan_BB: string, tagihan_credit: string,
     total_biaya: string,
     item1_total: string, item2_total: string, item3_total: string, item4_total: string, item5_total: string}[] = [];
 

@@ -12,19 +12,12 @@ import { Router } from '@angular/router';
 export class SalesPage implements OnInit {
   // ItemList : { order:number, cust_id:number, cust_name: string }[] = [{"order": 3, "cust_id":3, "cust_name": 'Cust Tiga'},{"order": 2, "cust_id": 2, "cust_name":'Cust Dua'},{"order": 1, "cust_id":1, "cust_name":'Cust Satu'}];
   DaftarSalesItem : {cust_order: number, cust_id: number, cust_name: string, cust_remark: string, cust_type: number,
-    nilai_cash: number, nilai_BB: number, nilai_credit: number,
+    payment_type: number, nilai_BB: number, nilai_credit: number,
     item1_qty: number, item2_qty: number, item3_qty: number, item4_qty: number, item5_qty: number,
     item1_qtyfree: number, item2_qtyfree: number, item3_qtyfree: number, item4_qtyfree: number, item5_qtyfree: number,
     item1_qtyretur: number, item2_qtyretur: number, item3_qtyretur: number, item4_qtyretur: number, item5_qtyretur: number,
     item1_price: number, item2_price: number, item3_price: number, item4_price: number, item5_price: number,
     cust_edited: number, cust_added: number, nomor_nota: string}[] = [];
-    /*=
-    [
-      {cust_order: 1, cust_id: 1, cust_name: "customer satu", cust_remark: "ini keterangan", cust_type: 1, nilai_piutang: 100000, nilai_cicilan: 10000, nilai_cash: 100000, item1_qty: 20, item2_qty: 35, cust_edited: 0},
-      {cust_order: 2, cust_id: 2, cust_name: "customer dua", cust_remark: "ini keterangan 2", cust_type: 2, nilai_piutang: 120000, nilai_cicilan: 12000, nilai_cash: 120000, item1_qty: 22, item2_qty: 32, cust_edited: 0},
-      {cust_order: 3, cust_id: 3, cust_name: "customer tiga", cust_remark: "ini keterangan 3", cust_type: 3, nilai_piutang: 130000, nilai_cicilan: 13000, nilai_cash: 130000, item1_qty: 23, item2_qty: 33, cust_edited: 0}
-    ];*/
-  
 
   constructor(
     private storage: Storage,
@@ -99,7 +92,7 @@ export class SalesPage implements OnInit {
 
 
   async edit(cust_id: number, cust_name: string, cust_type: number, cust_remark: string,
-    nilai_cash: number, nilai_BB: number, nilai_credit: number,
+    payment_type: number, nilai_BB: number, nilai_credit: number,
     item1_qty: number, item2_qty: number, item3_qty: number, item4_qty: number, item5_qty: number,
     item1_qtyfree: number, item2_qtyfree: number, item3_qtyfree: number, item4_qtyfree: number, item5_qtyfree: number,
     item1_qtyretur: number, item2_qtyretur: number, item3_qtyretur: number, item4_qtyretur: number, item5_qtyretur: number,
@@ -111,7 +104,7 @@ export class SalesPage implements OnInit {
     this.storage.set('sales_cust_type', cust_type);
     this.storage.set('sales_cust_remark', cust_remark);
     this.storage.set('sales_nomor_nota', nomor_nota);
-    this.storage.set('sales_nilai_cash', nilai_cash);
+    this.storage.set('sales_payment_type', payment_type);
     this.storage.set('sales_nilai_BB', nilai_BB);
     this.storage.set('sales_nilai_credit', nilai_credit);
     this.storage.set('sales_nilai_item1qty', item1_qty);

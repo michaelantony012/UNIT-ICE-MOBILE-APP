@@ -15,7 +15,7 @@ export class SalesCustAddPage implements OnInit {
   public sales_cust_type: string = "0";
   public sales_cust_remark: string = '';
   DaftarSalesItem : {cust_order: number, cust_id: number, cust_name: string, cust_remark: string, cust_type: number,
-    nilai_cash: number, nilai_BB: number, nilai_credit: number,
+    payment_type: number, nilai_BB: number, nilai_credit: number,
     item1_qty: number, item2_qty: number, item3_qty: number, item4_qty: number, item5_qty: number,
     item1_qtyfree: number, item2_qtyfree: number, item3_qtyfree: number, item4_qtyfree: number, item5_qtyfree: number,
     item1_qtyretur: number, item2_qtyretur: number, item3_qtyretur: number, item4_qtyretur: number, item5_qtyretur: number,
@@ -85,13 +85,31 @@ export class SalesCustAddPage implements OnInit {
           sales_cust_id_add++;
           await this.storage.set('sales_cust_id_add',sales_cust_id_add);
 
+          // ambil harga item sesuai cust_type
+          let item1Price: number = 0, item2Price: number = 0, item3Price: number = 0, item4Price: number = 0, item5Price: number = 0;
+          await this.storage.get('DaftarHargaItem').then((val) => {
+
+            val.forEach((el: { cust_type: number, item1_price: number, item2_price: number, item3_price: number, item4_price: number, item5_price: number }) => {
+              if(el.cust_type == parseInt(this.sales_cust_type))
+              {
+                // console.log(parseInt(el.item1_price.toString()));
+                item1Price = parseInt(el.item1_price.toString());
+                item2Price = parseInt(el.item1_price.toString());
+                item3Price = parseInt(el.item1_price.toString());
+                item4Price = parseInt(el.item1_price.toString());
+                item5Price = parseInt(el.item1_price.toString());
+              }
+            });
+
+          });
+
           this.DaftarSalesItem.unshift({cust_order: 0, cust_id: sales_cust_id_add, cust_name: this.sales_cust_name, cust_remark: this.sales_cust_remark,
             cust_type: parseInt(this.sales_cust_type),
-            nilai_cash: 0, nilai_BB: 0, nilai_credit: 0,
+            payment_type: 1, nilai_BB: 0, nilai_credit: 0,
             item1_qty: 0, item2_qty: 0, item3_qty: 0, item4_qty: 0, item5_qty: 0,
             item1_qtyfree: 0, item2_qtyfree: 0, item3_qtyfree: 0, item4_qtyfree: 0, item5_qtyfree: 0,
             item1_qtyretur: 0, item2_qtyretur: 0, item3_qtyretur: 0, item4_qtyretur: 0, item5_qtyretur: 0,
-            item1_price: 0, item2_price: 0, item3_price: 0, item4_price: 0, item5_price: 0,
+            item1_price: item1Price, item2_price: item2Price, item3_price: item3Price, item4_price: item4Price, item5_price: item5Price,
             cust_edited: 0, cust_added: 1, nomor_nota: ""});
           this.storage.set('DaftarSalesItem', this.DaftarSalesItem);
           

@@ -67,7 +67,7 @@
     <tr>
       <td style="width: 25%;">User</td>
       <td>:</td>
-      <td style="padding-left: 5px">{{ userlogin }}</td>
+      <td style="padding-left: 5px">{{ userlogin }} - {{ ware_city }}</td>
     </tr>
   </table>
 
@@ -123,7 +123,7 @@
   </div>
   
   <div *ngIf="doc_no !== ''"
-  style="width: 90%; height: 63%; margin: 0px 15px 15px 20px; 
+  style="width: 90%; height: 70%; margin: 0px 15px 15px 20px; 
   background-color: black;
   overflow: scroll;"
   >
@@ -135,7 +135,7 @@
       </tr>
       <tr>
         <td style="width: 35%;">
-          Cash
+          Total Cash
         </td>
         <td style="width: 10%; text-align: left;">
           :
@@ -145,25 +145,36 @@
         </td>
       </tr>
       <tr>
-        <td>
-          BB
+        <td style="width: 35%;">
+          Total BB
         </td>
-        <td>
+        <td style="width: 10%; text-align: left;">
           :
         </td>
-        <td>
+        <td style="width: 45%;">
           {{ sum_BB | number: '':'en' }}
         </td>
       </tr>
       <tr>
         <td>
-          Credit
+          Tag. BB
         </td>
         <td>
           :
         </td>
         <td>
-          {{ sum_credit | number: '':'en' }}
+          {{ sum_tagihan_BB | number: '':'en' }}
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Tag. Credit
+        </td>
+        <td>
+          :
+        </td>
+        <td>
+          {{ sum_tagihan_credit | number: '':'en' }}
         </td>
       </tr>
       <tr>
@@ -276,7 +287,7 @@
           {{ sum_item3retur | number: '':'en' }}
         </td>
       </tr>
-      <tr>
+      <!-- <tr>
         <td>
           K10
         </td>
@@ -308,7 +319,7 @@
         <td>
           {{ sum_item4retur | number: '':'en' }}
         </td>
-      </tr>
+      </tr> -->
       <tr>
         <td>
           C10

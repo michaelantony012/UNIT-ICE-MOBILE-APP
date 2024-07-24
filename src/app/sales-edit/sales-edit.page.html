@@ -60,7 +60,7 @@
           <!-- <ion-input style="width: 40%" [(ngModel)]="input_item3total" type="number" readonly>Total 3</ion-input> -->
         </ion-item>
         
-        <ion-item style="padding-bottom: 10px;">
+        <!-- <ion-item style="padding-bottom: 10px;">
           <ion-input style="width: 27%" [(ngModel)]="input_item4qty" type="number"
           (ionInput)="onItem4QtyChange($event)">{{ item4_name }} SJE</ion-input>
           <ion-input style="width: 27%" [(ngModel)]="input_item4qtyfree" type="number"
@@ -69,8 +69,7 @@
           (ionInput)="onItem4QtyReturChange($event)">{{ item4_name }} Retur</ion-input>
           <ion-input style="width: 20%; text-align: right;" [(ngModel)]="input_item4price" type="number"
           (ionInput)="onItem4PriceChange($event)">Price</ion-input>
-          <!-- <ion-input style="width: 40%" [(ngModel)]="input_item4total" type="number" readonly>Total 4</ion-input> -->
-        </ion-item>
+        </ion-item> -->
         
         <ion-item style="padding-bottom: 10px;">
           <ion-input style="width: 27%" [(ngModel)]="input_item5qty" type="number"
@@ -94,16 +93,28 @@
          
         <span class='line'></span>
         
+        <ion-item style="padding-bottom: 0px;">
+          Cash / BB
+        </ion-item>
         <ion-item style="padding-bottom: 10px;">
-          <ion-input [(ngModel)]="input_cash" (ionInput)="onCashChange($event)" type="text">Cash</ion-input>
+          <!-- (ionChange)="onPayTypeChange($event)"  -->
+          <ion-radio-group [(ngModel)]="input_payment_type"
+          style="width: 100%">
+            <ion-item>
+              <ion-radio [value]="1">• Cash</ion-radio>
+            </ion-item>
+            <ion-item>
+              <ion-radio [value]="2">• BB</ion-radio>
+            </ion-item>
+          </ion-radio-group>
         </ion-item>
         
         <ion-item style="padding-bottom: 10px;">
-          <ion-input [(ngModel)]="input_BB" (ionInput)="onBBChange($event)" type="text">BB</ion-input>
+          <ion-input [(ngModel)]="input_BB" (ionInput)="onBBChange($event)" type="text">Tagihan BB</ion-input>
         </ion-item>
         
         <ion-item style="padding-bottom: 10px;">
-          <ion-input [(ngModel)]="input_credit" (ionInput)="onCreditChange($event)" type="text">Credit</ion-input>
+          <ion-input [(ngModel)]="input_credit" (ionInput)="onCreditChange($event)" type="text">Tagihan Credit</ion-input>
         </ion-item>
         
     </ion-list>

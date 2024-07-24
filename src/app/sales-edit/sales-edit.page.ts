@@ -20,9 +20,9 @@ export class SalesEditPage implements OnInit {
   public sales_cust_id: number = 0;
   public sales_cust_name: any = '';
   public sales_nomor_nota: any;
-  public doc_kode_nota_terakhir: any;
+  public doc_kode_nota_terakhir: number = 0;
   public doc_no_nota: any;
-  public input_cash: any;
+  public input_payment_type: any;
   public input_BB: any;
   public input_credit: any;
   // SJE
@@ -78,9 +78,11 @@ export class SalesEditPage implements OnInit {
   public item3_name: string = '';
   public item4_name: string = '';
   public item5_name: string = '';
+
+  route_no: string = '';
   
   DaftarSalesItem : {cust_order: number, cust_id: number, cust_name: string, cust_remark: string, cust_type: number,
-    nilai_cash: number, nilai_BB: number, nilai_credit: number,
+    payment_type: number, nilai_BB: number, nilai_credit: number,
     item1_qty: number, item2_qty: number, item3_qty: number, item4_qty: number, item5_qty: number,
     item1_qtyfree: number, item2_qtyfree: number, item3_qtyfree: number, item4_qtyfree: number, item5_qtyfree: number,
     item1_qtyretur: number, item2_qtyretur: number, item3_qtyretur: number, item4_qtyretur: number, item5_qtyretur: number,
@@ -113,13 +115,14 @@ export class SalesEditPage implements OnInit {
     // JIka sales_nomor_nota kosong, tampilkan dgn nomor terakhir 
     if(this.sales_nomor_nota == '')
       {
+        this.route_no = await this.storage.get('userlogin_routeno');
         this.doc_no_nota = await this.storage.get('doc_no_nota');
-        this.doc_kode_nota_terakhir = await this.storage.get('doc_kode_nota_terakhir');
-        this.sales_nomor_nota = this.doc_no_nota + '-' + ('000'+(this.doc_kode_nota_terakhir+1).toString()).substr(-3,3);
+        this.doc_kode_nota_terakhir = parseInt(await this.storage.get('doc_kode_nota_terakhir'));
+        this.sales_nomor_nota =
+          this.route_no + '-' + this.doc_no_nota + '-' + ('000'+(this.doc_kode_nota_terakhir+1).toString()).substr(-3,3);
       }
 
-    this.input_cash = await this.storage.get('sales_nilai_cash');
-    this.input_cash = Intl.NumberFormat('en-US', { maximumFractionDigits: 0 }).format(this.input_cash);
+    this.input_payment_type = await this.storage.get('sales_payment_type');
     this.input_BB = await this.storage.get('sales_nilai_BB');
     this.input_BB = Intl.NumberFormat('en-US', { maximumFractionDigits: 0 }).format(this.input_BB);
     this.input_credit = await this.storage.get('sales_nilai_credit');
@@ -193,33 +196,6 @@ export class SalesEditPage implements OnInit {
 
   // On Change input form - START
   // Remove leading zeros : https://chatgpt.com/share/6260bdde-646c-4adb-997c-067ed219b185
-  onCashChange(event: any): void {
-    let value = event.detail.value;
-
-    // console.log(value);
-
-    // Remove leading zero
-    if (value.length == 2 && value.startsWith('0')) {
-      value = value.replace(/^0+/, '');
-    }
-
-    // Update the model value
-    // this.input_cash = value;
-
-    // Parse the input value as a number
-    let numericValue = parseFloat(value.replaceAll(',',''));
-    
-    // Check if numericValue is a valid number
-    console.log(isNaN(numericValue));
-    if (!isNaN(numericValue)) {
-      // Format the number
-      this.input_cash = 
-      Intl.NumberFormat('en-US', { maximumFractionDigits: 0 }).format(numericValue);
-    } else {
-      this.input_cash = '0'; // Or handle it as you wish
-    }
-
-  }
   onBBChange(event: any): void {
     let value = event.detail.value;
 
@@ -649,7 +625,7 @@ export class SalesEditPage implements OnInit {
 
     const sales_cust_id = this.sales_cust_id;
     const sales_cust_name = this.sales_cust_name;
-    const input_cash = this.input_cash ? this.input_cash : 0;
+    const input_payment_type = this.input_payment_type ? this.input_payment_type : 0;
     const input_BB = this.input_BB ? this.input_BB : 0;
     const input_credit = this.input_credit ? this.input_credit : 0;
     const input_item1qty = this.input_item1qty ? this.input_item1qty : 0;
@@ -688,7 +664,7 @@ export class SalesEditPage implements OnInit {
             {
               val['nomor_nota'] = nomor_nota;
             }
-          val['nilai_cash'] = parseInt(input_cash.replaceAll(',',''));
+          val['payment_type'] = parseInt(input_payment_type);
           val['nilai_BB'] = parseInt(input_BB.replaceAll(',',''));
           val['nilai_credit'] = parseInt(input_credit.replaceAll(',',''));
           val['item1_qty'] = parseInt(input_item1qty);

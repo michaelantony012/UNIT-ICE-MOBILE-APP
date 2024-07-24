@@ -62,6 +62,10 @@ export class LoginPage implements OnInit {
         this.storage.set('userlogin_tanggal',this.dataLogin.tanggal);
         this.storage.set('userlogin_tokenapps', this.dataLogin.tokenjwt);
         this.storage.set('userlogin_ccid',this.dataLogin.cc_id);
+        this.storage.set('userlogin_routeno',this.dataLogin.route_no);
+        this.storage.set('userlogin_wareid',this.dataLogin.ware_id);
+        this.storage.set('userlogin_warename',this.dataLogin.ware_name);
+        this.storage.set('userlogin_warecity',this.dataLogin.ware_city);
         
         this.router.navigate(['/home'], { replaceUrl: true });
       }

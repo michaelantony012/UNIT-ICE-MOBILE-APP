@@ -19,7 +19,7 @@ export class HomePage implements OnInit {
   doc_no: any = '';
   dataLogout: any = '';
   DaftarSalesItem : {cust_order: number, cust_id: number, cust_name: string, cust_remark: string, cust_type: number,
-    nilai_cash: number, nilai_BB: number, nilai_credit: number,
+    payment_type: number, nilai_BB: number, nilai_credit: number,
     item1_qty: number, item2_qty: number, item3_qty: number, item4_qty: number, item5_qty: number,
     item1_qtyfree: number, item2_qtyfree: number, item3_qtyfree: number, item4_qtyfree: number, item5_qtyfree: number,
     item1_qtyretur: number, item2_qtyretur: number, item3_qtyretur: number, item4_qtyretur: number, item5_qtyretur: number,
@@ -27,7 +27,8 @@ export class HomePage implements OnInit {
     cust_edited: number, cust_added: number, nomor_nota: string}[] = [];
   sum_cash: any = 0;
   sum_BB: any = 0;
-  sum_credit: any = 0;
+  sum_tagihan_BB: any = 0;
+  sum_tagihan_credit: any = 0;
   sum_item1: any = 0;
   sum_item2: any = 0;
   sum_item3: any = 0;
@@ -65,6 +66,8 @@ export class HomePage implements OnInit {
   sales_id3: number = 0;
   truck_id: number = 0;
   start00flag: number = 0;
+
+  ware_city: string = '';
 
   // Confirmation Dialog untuk Finish button
   // https://ionicframework.com/docs/api/alert#buttons
@@ -141,6 +144,7 @@ export class HomePage implements OnInit {
     // set disabled & enabled button
     await this.storage.get('doc_no').then( res => this.doc_no = res??"" );
     await this.storage.get('userlogin_userlogin').then( res => this.userlogin = res );
+    await this.storage.get('userlogin_warecity').then( res => this.ware_city = res );
     if(this.doc_no == '' || this.doc_no == null)
     {
       (<HTMLInputElement> document.getElementById("btn-sales")).disabled = true;
@@ -172,7 +176,8 @@ export class HomePage implements OnInit {
       
       this.sum_cash = 0;
       this.sum_BB = 0;
-      this.sum_credit = 0;
+      this.sum_tagihan_BB = 0;
+      this.sum_tagihan_credit = 0;
       this.sum_item1 = 0;
       this.sum_item2 = 0;
       this.sum_item3 = 0;
@@ -196,9 +201,10 @@ export class HomePage implements OnInit {
       {
         // https://chatgpt.com/share/214d3e88-4dd2-4cdb-ba4f-fc682146f158
         let result = this.DaftarSalesItem.reduce((acc, item) => {
-          this.sum_cash += item.nilai_cash
-          this.sum_BB += item.nilai_BB
-          this.sum_credit += item.nilai_credit
+
+          this.sum_tagihan_BB += item.nilai_BB
+          this.sum_tagihan_credit += item.nilai_credit
+
           this.sum_item1 += item.item1_qty * item.item1_price
           this.sum_item2 += item.item2_qty * item.item2_price
           this.sum_item3 += item.item3_qty * item.item3_price
@@ -218,8 +224,26 @@ export class HomePage implements OnInit {
           this.sum_item4retur += item.item4_qtyretur * item.item4_price
           this.sum_item5retur += item.item5_qtyretur * item.item5_price
           
+          if(item.payment_type == 1) // Cash
+          {
+            this.sum_cash += item.item1_qty * item.item1_price +
+            item.item2_qty * item.item2_price +
+            item.item3_qty * item.item3_price +
+            item.item4_qty * item.item4_price +
+            item.item5_qty * item.item5_price;
+
+          }
+          else if(item.payment_type == 2) // BB
+          {
+            this.sum_BB += item.item1_qty * item.item1_price +
+            item.item2_qty * item.item2_price +
+            item.item3_qty * item.item3_price +
+            item.item4_qty * item.item4_price +
+            item.item5_qty * item.item5_price;
+          }
+          
           return acc;
-        }, {sum_piutang: 0, sum_cicilan: 0, sum_cash: 0, sum_item1: 0, sum_item2: 0, sum_item3: 0, sum_item4: 0, sum_item5: 0});
+        }, {sum_cash: 0, sum_item1: 0, sum_item2: 0, sum_item3: 0, sum_item4: 0, sum_item5: 0});
       }
       if(this.DaftarBiaya !== null)
       {
@@ -311,9 +335,11 @@ export class HomePage implements OnInit {
     await loading.present(); 
 
     const tokenapps = await this.storage.get('userlogin_tokenapps');
+    const wareid = await this.storage.get('userlogin_wareid');
     // console.log(tokenapps);
     var formData : FormData = new FormData();
     formData.set('tokenapps', tokenapps);
+    formData.set('ware_id',wareid);
 
     this.http.post('https://project.graylite.com/unitice/mobile/start_00.php', formData)
     .subscribe((data) => {
@@ -321,6 +347,7 @@ export class HomePage implements OnInit {
       this.dataSalesStart00=data;
       if(this.dataSalesStart00.error==true){
         this.presentToast(this.dataSalesStart00.message);
+        // console.log(this.dataSalesStart00.message);
       }else{
         this.presentToast(this.dataSalesStart00.message);
         this.DaftarMarketing=this.dataSalesStart00.DaftarMarketing;
@@ -354,6 +381,7 @@ export class HomePage implements OnInit {
     else
     {
       const tokenapps = await this.storage.get('userlogin_tokenapps');
+      const wareid = await this.storage.get('userlogin_wareid');
       // console.log(tokenapps);
       var formData : FormData = new FormData();
       formData.set('tokenapps', tokenapps);
@@ -361,6 +389,7 @@ export class HomePage implements OnInit {
       formData.set('sales_id2', this.sales_id2.toString());
       formData.set('sales_id3', this.sales_id3.toString());
       formData.set('truck_id', this.truck_id.toString());
+      formData.set('ware_id', wareid.toString());
 
       this.http.post('https://project.graylite.com/unitice/mobile/start.php', formData)
       .subscribe((data) => {
@@ -377,6 +406,7 @@ export class HomePage implements OnInit {
           this.storage.set('DaftarSalesItem',this.dataSalesStart.DaftarSalesItem);
           this.storage.set('DaftarJenisBiaya',this.dataSalesStart.DaftarJenisBiaya);
           this.storage.set('DaftarNamaItem',this.dataSalesStart.DaftarNamaItem);
+          this.storage.set('DaftarHargaItem',this.dataSalesStart.DaftarHargaItem);
           this.doc_no = this.dataSalesStart.doc_no;
 
           
@@ -449,6 +479,7 @@ export class HomePage implements OnInit {
       this.dataSalesStart=data;
       if(this.dataSalesStart.error==true){
         this.presentToast(this.dataSalesStart.message);
+        // console.log(this.dataSalesStart.message);
       }else{
         this.presentToast(this.dataSalesStart.message);
         this.storage.remove('doc_no');
@@ -462,7 +493,8 @@ export class HomePage implements OnInit {
 
         this.sum_cash = 0;
         this.sum_BB = 0;
-        this.sum_credit = 0;
+        this.sum_tagihan_BB = 0;
+        this.sum_tagihan_credit = 0;
         this.sum_item1 = 0;
         this.sum_item2 = 0;
         this.sum_item3 = 0;
@@ -522,6 +554,10 @@ export class HomePage implements OnInit {
         this.storage.remove('userlogin_userlogin');
         this.storage.remove('userlogin_tanggal');
         this.storage.remove('userlogin_ccid');
+        this.storage.remove('userlogin_routeno');
+        this.storage.remove('userlogin_wareid');
+        this.storage.remove('userlogin_warename');
+        this.storage.remove('userlogin_warecity');
 
         this.router.navigate(['/'], { replaceUrl: true });
       }
