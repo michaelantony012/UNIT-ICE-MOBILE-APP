@@ -67,7 +67,7 @@ export class HomePage implements OnInit {
   truck_id: number = 0;
   start00flag: number = 0;
 
-  ware_city: string = '';
+  ware_city: any;
 
   // Confirmation Dialog untuk Finish button
   // https://ionicframework.com/docs/api/alert#buttons
@@ -141,6 +141,12 @@ export class HomePage implements OnInit {
     registerLocaleData( en );
   }
   async ionViewDidEnter(){
+    const loading = await this.loadingController.create({
+      cssClass: 'loading-custom',
+      message: 'Please wait...'
+    });
+    await loading.present(); 
+    
     // set disabled & enabled button
     await this.storage.get('doc_no').then( res => this.doc_no = res??"" );
     await this.storage.get('userlogin_userlogin').then( res => this.userlogin = res );
@@ -254,6 +260,8 @@ export class HomePage implements OnInit {
         // console.log("Biaya: "+this.sum_biaya);
       }
     }
+    
+    loading.dismiss();
 
     // console.log("sum_piutang: "+this.sum_piutang);
     // console.log("sum_cicilan: "+result.sum_cicilan);
@@ -322,6 +330,7 @@ export class HomePage implements OnInit {
   private async showLoadingIndictator() {
     const loadingIndicator = await this.loadingController.create({
       message: 'Please wait...',
+      duration: 10000
     });
     await loadingIndicator.present();
     return loadingIndicator;

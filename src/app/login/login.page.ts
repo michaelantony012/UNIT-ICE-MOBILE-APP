@@ -67,7 +67,7 @@ export class LoginPage implements OnInit {
         await this.storage.set('userlogin_warename',this.dataLogin.ware_name);
         await this.storage.set('userlogin_warecity',this.dataLogin.ware_city);
         
-        this.router.navigate(['/home'], { replaceUrl: true });
+        await this.router.navigate(['/home'], { replaceUrl: true });
       }
       loading.dismiss();
     },

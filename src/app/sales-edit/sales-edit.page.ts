@@ -1051,6 +1051,7 @@ export class SalesEditPage implements OnInit {
   private async showLoadingIndictator() {
     const loadingIndicator = await this.loadingController.create({
       message: 'Please wait...',
+      duration: 10000
     });
     await loadingIndicator.present();
     return loadingIndicator;
