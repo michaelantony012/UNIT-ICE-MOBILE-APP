@@ -9,113 +9,78 @@
   <!-- //https://stackoverflow.com/questions/42756322/how-to-make-an-ionic-list-scrollable -->
   <div scrolly="true" style="max-height:84%">
     <ion-list style="margin: 5px 5px 0 5px;">
-        <!-- <ion-item>
-          <ion-input label="Text input" placeholder="Enter text"></ion-input>
-        </ion-item> -->
+      
+        <div style="padding: 0 15px 10px 15px">
+          <label style="margin-bottom: 15px"><b>Customer : &nbsp;&nbsp;&nbsp;{{ sales_cust_name }}</b></label>
+        </div>
         
-        <ion-item style="padding-bottom: 1px;">
-          <b><ion-input label="Customer :" [(ngModel)]="sales_cust_name" type="text" readonly></ion-input></b>
-        </ion-item>
-        <ion-item style="padding-bottom: 1px;">
-          <b><ion-input label="Nomor Nota :" [(ngModel)]="sales_nomor_nota" type="text" readonly></ion-input></b>
-        </ion-item>
+        <div style="padding: 0 15px 15px 15px">
+          <label style="margin-top: 70px; margin-bottom: 10px;"><b>Nomor Nota : &nbsp;&nbsp;{{ sales_nomor_nota }}</b></label>
+        </div>
         
         <span class='line'></span>
 
         <!-- <hr style="height:1px;background-color:white;margin: 0 5px 10px 5px;"> -->
 
         <ion-item style="padding-bottom: 10px; padding-top: 10px;">
-          <ion-input style="width: 27%" [(ngModel)]="input_item1qty" type="number"
-          (ionInput)="onItem1QtyChange($event)">{{ item1_name }} SJE</ion-input>
-          <ion-input style="width: 27%" [(ngModel)]="input_item1qtyfree" type="number"
-          (ionInput)="onItem1QtyFreeChange($event)">{{ item1_name }} Free</ion-input>
-          <ion-input style="width: 26%" [(ngModel)]="input_item1qtyretur" type="number"
-          (ionInput)="onItem1QtyReturChange($event)">{{ item1_name }} Retur</ion-input>
+          <ion-input style="width: 15%" [(ngModel)]="input_item1qty" type="number"
+          (ionInput)="onItem1QtyChange($event)">{{ item1_name }}</ion-input>
           <ion-input style="width: 20%; text-align: right;" [(ngModel)]="input_item1price" type="number"
-          (ionInput)="onItem1PriceChange($event)">Price</ion-input>
-          <!-- <ion-input style="width: 40%" [(ngModel)]="input_item1total" type="number" readonly>Total 1</ion-input> -->
-        </ion-item>
-        
-        <ion-item style="padding-bottom: 10px;">
-          <ion-input style="width: 27%" [(ngModel)]="input_item2qty" type="number"
-          (ionInput)="onItem2QtyChange($event)">{{ item2_name }} SJE</ion-input>
-          <ion-input style="width: 27%" [(ngModel)]="input_item2qtyfree" type="number"
-          (ionInput)="onItem2QtyFreeChange($event)">{{ item2_name }} Free</ion-input>
-          <ion-input style="width: 26%" [(ngModel)]="input_item2qtyretur" type="number"
-          (ionInput)="onItem2QtyReturChange($event)">{{ item2_name }} Retur</ion-input>
+          (ionInput)="onItem1PriceChange($event)" readonly>Price</ion-input>
+          <ion-input style="width: 15%; margin-left: 75px;" [(ngModel)]="input_item2qty" type="number"
+          (ionInput)="onItem2QtyChange($event)">{{ item2_name }}</ion-input>
           <ion-input style="width: 20%; text-align: right;" [(ngModel)]="input_item2price" type="number"
-          (ionInput)="onItem2PriceChange($event)">Price</ion-input>
-          <!-- <ion-input style="width: 40%" [(ngModel)]="input_item2total" type="number" readonly>Total 2</ion-input> -->
+          (ionInput)="onItem2PriceChange($event)" readonly>Price</ion-input>
         </ion-item>
         
         <ion-item style="padding-bottom: 10px;">
-          <ion-input style="width: 27%" [(ngModel)]="input_item3qty" type="number"
-          (ionInput)="onItem3QtyChange($event)">{{ item3_name }} SJE</ion-input>
-          <ion-input style="width: 27%" [(ngModel)]="input_item3qtyfree" type="number"
-          (ionInput)="onItem3QtyFreeChange($event)">{{ item3_name }} Free</ion-input>
-          <ion-input style="width: 26%" [(ngModel)]="input_item3qtyretur" type="number"
-          (ionInput)="onItem3QtyReturChange($event)">{{ item3_name }} Retur</ion-input>
+          <ion-input style="width: 15%" [(ngModel)]="input_item3qty" type="number"
+          (ionInput)="onItem3QtyChange($event)">{{ item3_name }}</ion-input>
           <ion-input style="width: 20%; text-align: right;" [(ngModel)]="input_item3price" type="number"
-          (ionInput)="onItem3PriceChange($event)">Price</ion-input>
-          <!-- <ion-input style="width: 40%" [(ngModel)]="input_item3total" type="number" readonly>Total 3</ion-input> -->
-        </ion-item>
-        
-        <!-- <ion-item style="padding-bottom: 10px;">
-          <ion-input style="width: 27%" [(ngModel)]="input_item4qty" type="number"
-          (ionInput)="onItem4QtyChange($event)">{{ item4_name }} SJE</ion-input>
-          <ion-input style="width: 27%" [(ngModel)]="input_item4qtyfree" type="number"
-          (ionInput)="onItem4QtyFreeChange($event)">{{ item4_name }} Free</ion-input>
-          <ion-input style="width: 26%" [(ngModel)]="input_item4qtyretur" type="number"
-          (ionInput)="onItem4QtyReturChange($event)">{{ item4_name }} Retur</ion-input>
-          <ion-input style="width: 20%; text-align: right;" [(ngModel)]="input_item4price" type="number"
-          (ionInput)="onItem4PriceChange($event)">Price</ion-input>
-        </ion-item> -->
-        
-        <ion-item style="padding-bottom: 10px;">
-          <ion-input style="width: 27%" [(ngModel)]="input_item5qty" type="number"
-          (ionInput)="onItem5QtyChange($event)">{{ item5_name }} Qty</ion-input>
-          <ion-input style="width: 27%" [(ngModel)]="input_item5qtyfree" type="number"
-          (ionInput)="onItem5QtyFreeChange($event)">{{ item5_name }} Free</ion-input>
-          <ion-input style="width: 26%" [(ngModel)]="input_item5qtyretur" type="number"
-          (ionInput)="onItem5QtyReturChange($event)">{{ item5_name }} Retur</ion-input>
+          (ionInput)="onItem3PriceChange($event)" readonly>Price</ion-input>
+          <ion-input style="width: 15%; margin-left: 75px;" [(ngModel)]="input_item5qty" type="number"
+          (ionInput)="onItem5QtyChange($event)">{{ item5_name }}</ion-input>
           <ion-input style="width: 20%; text-align: right;" [(ngModel)]="input_item5price" type="number"
-          (ionInput)="onItem5PriceChange($event)">Price</ion-input>
-          <!-- <ion-input style="width: 40%" [(ngModel)]="input_item5total" type="number" readonly>Total 5</ion-input> -->
+          (ionInput)="onItem5PriceChange($event)" readonly>Price</ion-input>
         </ion-item>
         
         <ion-item style="padding-bottom: 10px;">
-          <ion-input style="width: 27%; font-weight: bold;" [(ngModel)]="input_totalkeseluruhan" type="text" readonly>Total SJE</ion-input>
-          <ion-input style="width: 27%; font-weight: bold;" [(ngModel)]="input_totalfree" type="text" readonly>Total Free</ion-input>
-          <ion-input style="width: 46%; font-weight: bold;" [(ngModel)]="input_totalretur" type="text" readonly>Total Retur</ion-input>
+          <ion-input *ngIf="ware_id !== 2" style="width: 15%" [(ngModel)]="input_item4qty" type="number"
+          (ionInput)="onItem4QtyChange($event)">{{ item4_name }}</ion-input>
+          <ion-input *ngIf="ware_id !== 2" style="width: 20%; text-align: right; margin-right: 75px;" [(ngModel)]="input_item4price" type="number"
+          (ionInput)="onItem4PriceChange($event)" readonly>Price</ion-input>
+          <ion-input style="width: 35%; font-weight: bold;" [(ngModel)]="input_totalkeseluruhan" type="text" readonly>Total</ion-input>
         </ion-item>
         
         <!-- <hr style="height:1px;background-color:white;margin: 0 5px 10px 5px;"> -->
          
         <span class='line'></span>
         
-        <ion-item style="padding-bottom: 0px;">
-          Cash / BB
-        </ion-item>
-        <ion-item style="padding-bottom: 10px;">
-          <!-- (ionChange)="onPayTypeChange($event)"  -->
-          <ion-radio-group [(ngModel)]="input_payment_type"
-          style="width: 100%">
-            <ion-item>
-              <ion-radio [value]="1">• Cash</ion-radio>
-            </ion-item>
-            <ion-item>
-              <ion-radio [value]="2">• BB</ion-radio>
-            </ion-item>
-          </ion-radio-group>
-        </ion-item>
-        
-        <ion-item style="padding-bottom: 10px;">
-          <ion-input [(ngModel)]="input_BB" (ionInput)="onBBChange($event)" type="text">Tagihan BB</ion-input>
-        </ion-item>
-        
-        <ion-item style="padding-bottom: 10px;">
-          <ion-input [(ngModel)]="input_credit" (ionInput)="onCreditChange($event)" type="text">Tagihan Credit</ion-input>
-        </ion-item>
+        <div style="padding: 0 15px 7px 15px">
+          <table>
+            <tr>
+              <td style="width: 56%; padding: 0 55px 0 0;" rowspan="2">
+                <label for="input_pay_type">Cash / BB</label>
+                <ion-radio-group id="input_pay_type" [(ngModel)]="input_payment_type">
+                  <ion-item>
+                    <ion-radio [value]="1">• Cash</ion-radio>
+                  </ion-item>
+                  <ion-item>
+                    <ion-radio [value]="2">• BB</ion-radio>
+                  </ion-item>
+                </ion-radio-group>
+              </td>
+              <td style="width: 44%; padding: 10px 0 0 0;">
+                <ion-input [(ngModel)]="input_BB" (ionInput)="onBBChange($event)" type="text">Tagihan BB</ion-input>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <ion-input [(ngModel)]="input_credit" (ionInput)="onCreditChange($event)" type="text">Tagihan Credit</ion-input>
+              </td>
+            </tr>
+          </table>
+        </div>
         
     </ion-list>
   </div>

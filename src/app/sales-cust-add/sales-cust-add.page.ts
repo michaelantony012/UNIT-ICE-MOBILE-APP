@@ -94,10 +94,10 @@ export class SalesCustAddPage implements OnInit {
               {
                 // console.log(parseInt(el.item1_price.toString()));
                 item1Price = parseInt(el.item1_price.toString());
-                item2Price = parseInt(el.item1_price.toString());
-                item3Price = parseInt(el.item1_price.toString());
-                item4Price = parseInt(el.item1_price.toString());
-                item5Price = parseInt(el.item1_price.toString());
+                item2Price = parseInt(el.item2_price.toString());
+                item3Price = parseInt(el.item3_price.toString());
+                item4Price = parseInt(el.item4_price.toString());
+                item5Price = parseInt(el.item5_price.toString());
               }
             });
 

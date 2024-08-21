@@ -79,6 +79,8 @@ export class SalesEditPage implements OnInit {
   public item4_name: string = '';
   public item5_name: string = '';
 
+  public ware_id: number = 0;
+
   route_no: string = '';
   
   DaftarSalesItem : {cust_order: number, cust_id: number, cust_name: string, cust_remark: string, cust_type: number,
@@ -108,6 +110,7 @@ export class SalesEditPage implements OnInit {
   async ionViewDidEnter(){
     const loadingIndicator = await this.showLoadingIndictator();
 
+    this.ware_id = await this.storage.get('userlogin_wareid');
     this.sales_cust_id = await this.storage.get('sales_cust_id');
     this.sales_cust_name = await this.storage.get('sales_cust_name');
 

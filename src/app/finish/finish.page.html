@@ -1,0 +1,80 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title><h2>Menu Selesai</h2></ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-alert
+  trigger="btn-finish1"
+  header="Anda yakin untuk selesai?"
+  [buttons]="buttonFinishAlert"
+></ion-alert>
+
+<ion-content [fullscreen]="true">
+  <!-- //https://stackoverflow.com/questions/42756322/how-to-make-an-ionic-list-scrollable -->
+  <div scrolly="true" style="max-height:84%">
+    <ion-list style="margin: 5px 5px 0 5px;">
+      
+        <div style="padding: 10px 15px 10px 15px">
+          <label style="margin-bottom: 15px"><b>Isi Retur</b></label>
+        </div>
+      
+        <ion-item style="padding-bottom: 10px; padding-top: 10px;">
+          <ion-input style="width: 27%" [(ngModel)]="input_item1Retur" type="number"
+          (ionInput)="onItem1ReturChange($event)">B5 Retur</ion-input>
+          <ion-input style="width: 27%;" [(ngModel)]="input_item2Retur" type="number"
+          (ionInput)="onItem2ReturChange($event)">B10 Retur</ion-input>
+          <ion-input style="width: 23%" [(ngModel)]="input_item3Retur" type="number"
+          (ionInput)="onItem3ReturChange($event)">B20 Retur</ion-input>
+          <ion-input style="width: 23%;" [(ngModel)]="input_item5Retur" type="number"
+          (ionInput)="onItem5ReturChange($event)">C10 Retur</ion-input>
+        </ion-item>
+      
+        <ion-item *ngIf="ware_id !== 2" style="padding-bottom: 10px; padding-top: 10px;">
+          <ion-input style="width: 27%" [(ngModel)]="input_item4Retur" type="number"
+          (ionInput)="onItem4ReturChange($event)">K10 Retur</ion-input>
+        </ion-item>
+        
+        <span class='line'></span>
+      
+        <div style="padding: 10px 15px 10px 15px">
+          <label style="margin-bottom: 15px"><b>Isi Free</b></label>
+        </div>
+      
+        <ion-item style="padding-bottom: 10px; padding-top: 10px;">
+          <ion-input style="width: 27%;" [(ngModel)]="input_item1Free" type="number"
+          (ionInput)="onItem1FreeChange($event)">B5 Free</ion-input>
+          <ion-input style="width: 27%;" [(ngModel)]="input_item2Free" type="number"
+          (ionInput)="onItem2FreeChange($event)">B10 Free</ion-input>
+          <ion-input style="width: 23%;" [(ngModel)]="input_item3Free" type="number"
+          (ionInput)="onItem3FreeChange($event)">B20 Free</ion-input>
+          <ion-input style="width: 23%;" [(ngModel)]="input_item5Free" type="number"
+          (ionInput)="onItem5FreeChange($event)">C10 Free</ion-input>
+        </ion-item>
+      
+        <ion-item *ngIf="ware_id !== 2" style="padding-bottom: 10px; padding-top: 10px;">
+          <ion-input style="width: 27%" [(ngModel)]="input_item4Free" type="number"
+          (ionInput)="onItem4FreeChange($event)">K10 Free</ion-input>
+        </ion-item>
+        
+        <!-- <hr style="height:1px;background-color:white;margin: 0 5px 10px 5px;"> -->
+         
+        <span class='line'></span>
+        
+        
+    </ion-list>
+  </div>
+  <!-- align to the bottom of the page -->
+  <div style="position: absolute; bottom: 0px; width: 100%; padding: 0 10px 10px 10px">
+    <table style="width: 100%;">
+      <tr>
+        <td>
+          <ion-button expand="block" id="btn-finish1"><b>Selesai</b></ion-button>
+        </td>
+        <td>
+          <ion-button expand="block" (click)="back()"><b>Kembali</b></ion-button>
+        </td>
+      </tr>
+    </table>
+  </div>
+</ion-content>

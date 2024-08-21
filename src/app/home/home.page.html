@@ -9,7 +9,7 @@
   <ion-content class="ion-padding">
     <ion-list>
       <ion-menu-toggle>
-        <ion-item button id="btn-finish">Selesai</ion-item> 
+        <ion-item button (click)="finish()" id="btn-finish">Selesai</ion-item> 
       </ion-menu-toggle>
       <ion-menu-toggle>
         <ion-item button (click)="history()">Riwayat</ion-item>
@@ -27,11 +27,11 @@
   </ion-content>
 </ion-menu>
 <!-- https://ionicframework.com/docs/api/alert#buttons -->
-<ion-alert
+<!-- <ion-alert
   trigger="btn-finish"
   header="Anda yakin untuk selesai?"
   [buttons]="buttonFinishAlert"
-></ion-alert>
+></ion-alert> -->
 <ion-alert
   trigger="btn-signout"
   header="Anda yakin akan Sign Out?"
@@ -86,39 +86,62 @@
   </table>
 <!--  -->
   <div *ngIf="doc_no == '' && start00flag==1"
-  style="margin: 0px 15px 15px 20px; "
+  style="margin: 0px 15px 5px 15px; "
   id="start00_form">
     <ion-list>
       <ion-item>
-        <ion-select [(ngModel)]="sales_id1" interface="popover" label="Pilih Sales 1 *">
+        <ion-select style="width: 40%; margin-right: 20px;" [(ngModel)]="sales_id1" interface="popover" label="Sales 1">
+          <ion-select-option *ngFor="let item of DaftarMarketing" [value]="item.sales_id">
+            {{ item.sales_name }}
+          </ion-select-option>
+        </ion-select>
+        <ion-select style="width: 40%;" [(ngModel)]="sales_id2" interface="popover" label="Sales 2">
           <ion-select-option *ngFor="let item of DaftarMarketing" [value]="item.sales_id">
             {{ item.sales_name }}
           </ion-select-option>
         </ion-select>
       </ion-item>
       <ion-item>
-        <ion-select [(ngModel)]="sales_id2" interface="popover" label="Pilih Sales 2 *">
+        <ion-select style="width: 40%; margin-right: 20px;" [(ngModel)]="sales_id3" interface="popover" label="Sales 3">
           <ion-select-option *ngFor="let item of DaftarMarketing" [value]="item.sales_id">
             {{ item.sales_name }}
           </ion-select-option>
         </ion-select>
-      </ion-item>
-      <ion-item>
-        <ion-select [(ngModel)]="sales_id3" interface="popover" label="Pilih Sales 3 (opsional)">
-          <ion-select-option *ngFor="let item of DaftarMarketing" [value]="item.sales_id">
-            {{ item.sales_name }}
-          </ion-select-option>
-        </ion-select>
-      </ion-item>
-      <ion-item>
-        <ion-select [(ngModel)]="truck_id" interface="popover" label="Pilih Truck *">
+        <ion-select style="width: 40%;" [(ngModel)]="truck_id" interface="popover" label="Truck">
           <ion-select-option *ngFor="let item of DaftarTruck" [value]="item.truck_id">
             {{ item.truck_nopol }}
           </ion-select-option>
         </ion-select>
       </ion-item>
-        <ion-button id="btn-start" style="width: 90%; margin: 15px 15px 3px 15px; height: 20px;">MULAI</ion-button>
-        <ion-button id="btn-cancelstart" (click)="cancelStart()" style="width: 90%; margin: 10px 15px 3px 15px; height: 20px;">BATAL</ion-button>
+      <span class='line'></span>
+      <ion-item>
+        <ion-input style="width: 40%; margin-right: 43px;" type="number" [(ngModel)]="input_item1SJE"
+        (ionInput)="onItem1SJEChange($event)">
+          SJE B5
+        </ion-input>
+        <ion-input style="width: 40%;" type="number" [(ngModel)]="input_item2SJE"
+        (ionInput)="onItem2SJEChange($event)">
+          SJE B10
+        </ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-input style="width: 40%; margin-right: 43px;" type="number" [(ngModel)]="input_item3SJE"
+        (ionInput)="onItem3SJEChange($event)">
+          SJE B20
+        </ion-input>
+        <ion-input style="width: 40%;" type="number" [(ngModel)]="input_item5SJE"
+        (ionInput)="onItem5SJEChange($event)">
+          SJE C10
+        </ion-input>
+      </ion-item>
+      <ion-item *ngIf="ware_id !== 2">
+        <ion-input style="width: 40%; margin-right: 43px;" type="number" [(ngModel)]="input_item4SJE"
+        (ionInput)="onItem4SJEChange($event)">
+          SJE K10
+        </ion-input>
+      </ion-item>
+      <ion-button id="btn-start" style="width: 90%; margin: 15px 15px 3px 15px; height: 20px;">MULAI</ion-button>
+      <ion-button id="btn-cancelstart" (click)="cancelStart()" style="width: 90%; margin: 10px 15px 3px 15px; height: 20px;">BATAL</ion-button>
     </ion-list>
   </div>
   
@@ -196,29 +219,7 @@
           :
         </td>
         <td>
-          {{ sum_item1 | number: '':'en' }}
-        </td>
-      </tr>
-      <tr>
-        <td>
-          B5 - Free
-        </td>
-        <td>
-          :
-        </td>
-        <td>
-          {{ sum_item1free | number: '':'en' }}
-        </td>
-      </tr>
-      <tr>
-        <td>
-          B5 - Retur
-        </td>
-        <td>
-          :
-        </td>
-        <td>
-          {{ sum_item1retur | number: '':'en' }}
+          ({{ item1_totalqty | number: '':'en' }}) {{ sum_item1 | number: '':'en' }}
         </td>
       </tr>
       <tr>
@@ -229,29 +230,7 @@
           :
         </td>
         <td>
-          {{ sum_item2 | number: '':'en' }}
-        </td>
-      </tr>
-      <tr>
-        <td>
-          B10 - Free
-        </td>
-        <td>
-          :
-        </td>
-        <td>
-          {{ sum_item2free | number: '':'en' }}
-        </td>
-      </tr>
-      <tr>
-        <td>
-          B10 - Retur
-        </td>
-        <td>
-          :
-        </td>
-        <td>
-          {{ sum_item2retur | number: '':'en' }}
+          ({{ item2_totalqty | number: '':'en' }}) {{ sum_item2 | number: '':'en' }}
         </td>
       </tr>
       <tr>
@@ -262,32 +241,10 @@
           :
         </td>
         <td>
-          {{ sum_item3 | number: '':'en' }}
+          ({{ item3_totalqty | number: '':'en' }}) {{ sum_item3 | number: '':'en' }}
         </td>
       </tr>
-      <tr>
-        <td>
-          B20 - Free
-        </td>
-        <td>
-          :
-        </td>
-        <td>
-          {{ sum_item3free | number: '':'en' }}
-        </td>
-      </tr>
-      <tr>
-        <td>
-          B20 - Retur
-        </td>
-        <td>
-          :
-        </td>
-        <td>
-          {{ sum_item3retur | number: '':'en' }}
-        </td>
-      </tr>
-      <!-- <tr>
+      <tr *ngIf="ware_id !== 2">
         <td>
           K10
         </td>
@@ -295,31 +252,9 @@
           :
         </td>
         <td>
-          {{ sum_item4 | number: '':'en' }}
+          ({{ item4_totalqty | number: '':'en' }}) {{ sum_item4 | number: '':'en' }}
         </td>
       </tr>
-      <tr>
-        <td>
-          K10 - Free
-        </td>
-        <td>
-          :
-        </td>
-        <td>
-          {{ sum_item4free | number: '':'en' }}
-        </td>
-      </tr>
-      <tr>
-        <td>
-          K10 - Retur
-        </td>
-        <td>
-          :
-        </td>
-        <td>
-          {{ sum_item4retur | number: '':'en' }}
-        </td>
-      </tr> -->
       <tr>
         <td>
           C10
@@ -328,31 +263,66 @@
           :
         </td>
         <td>
-          {{ sum_item5 | number: '':'en' }}
+          ({{ item5_totalqty | number: '':'en' }}) {{ sum_item5 | number: '':'en' }}
         </td>
       </tr>
+      
       <tr>
         <td>
-          C10 - Free
+          SJE B5
         </td>
         <td>
           :
         </td>
         <td>
-          {{ sum_item5free | number: '':'en' }}
+          {{ item1_SJE | number: '':'en' }}
         </td>
       </tr>
       <tr>
         <td>
-          C10 - Retur
+          SJE B10
         </td>
         <td>
           :
         </td>
         <td>
-          {{ sum_item5retur | number: '':'en' }}
+          {{ item2_SJE | number: '':'en' }}
         </td>
       </tr>
+      <tr>
+        <td>
+          SJE B20
+        </td>
+        <td>
+          :
+        </td>
+        <td>
+          {{ item3_SJE | number: '':'en' }}
+        </td>
+      </tr>
+      <tr *ngIf="ware_id !== 2">
+        <td>
+          SJE K10
+        </td>
+        <td>
+          :
+        </td>
+        <td>
+          {{ item4_SJE | number: '':'en' }}
+        </td>
+      </tr>
+      <tr>
+        <td>
+          SJE C10
+        </td>
+        <td>
+          :
+        </td>
+        <td>
+          {{ item5_SJE | number: '':'en' }}
+        </td>
+      </tr>
+
     </table>
   </div>
 </ion-content>

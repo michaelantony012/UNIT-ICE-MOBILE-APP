@@ -68,10 +68,28 @@ export class HomePage implements OnInit {
   start00flag: number = 0;
 
   ware_city: any;
+  ware_id: number = 0;
+  input_item1SJE: number = 0;
+  input_item2SJE: number = 0;
+  input_item3SJE: number = 0;
+  input_item4SJE: number = 0;
+  input_item5SJE: number = 0;
+
+  item1_SJE: number = 0;
+  item2_SJE: number = 0;
+  item3_SJE: number = 0;
+  item4_SJE: number = 0;
+  item5_SJE: number = 0;
+
+  item1_totalqty: number = 0;
+  item2_totalqty: number = 0;
+  item3_totalqty: number = 0;
+  item4_totalqty: number = 0;
+  item5_totalqty: number = 0;
 
   // Confirmation Dialog untuk Finish button
   // https://ionicframework.com/docs/api/alert#buttons
-  public buttonFinishAlert = [
+  /*public buttonFinishAlert = [
     {
       text: 'Cancel',
       role: 'cancel',
@@ -85,7 +103,7 @@ export class HomePage implements OnInit {
         this.finish();
       },
     },
-  ];
+  ];*/
 
   // Confirmation Dialog Sign Out
   public buttonSignOutAlert = [
@@ -151,11 +169,20 @@ export class HomePage implements OnInit {
     await this.storage.get('doc_no').then( res => this.doc_no = res??"" );
     await this.storage.get('userlogin_userlogin').then( res => this.userlogin = res );
     await this.storage.get('userlogin_warecity').then( res => this.ware_city = res );
+    await this.storage.get('userlogin_wareid').then( res => this.ware_id = res );
+      
+    await this.storage.get('doc_item1_SJE').then( res => this.item1_SJE = res );
+    await this.storage.get('doc_item2_SJE').then( res => this.item2_SJE = res );
+    await this.storage.get('doc_item3_SJE').then( res => this.item3_SJE = res );
+    await this.storage.get('doc_item4_SJE').then( res => this.item4_SJE = res );
+    await this.storage.get('doc_item5_SJE').then( res => this.item5_SJE = res );
+
     if(this.doc_no == '' || this.doc_no == null)
     {
       (<HTMLInputElement> document.getElementById("btn-sales")).disabled = true;
       (<HTMLInputElement> document.getElementById("btn-biaya")).disabled = true;
       (<HTMLInputElement> document.getElementById("btn-finish")).disabled = true;
+      (<HTMLInputElement> document.getElementById("btn-start00")).disabled = false;
     }
     else
     {
@@ -203,6 +230,12 @@ export class HomePage implements OnInit {
       this.sum_item4retur = 0;
       this.sum_item5retur = 0;
 
+      this.item1_totalqty = 0;
+      this.item2_totalqty = 0;
+      this.item3_totalqty = 0;
+      this.item4_totalqty = 0;
+      this.item5_totalqty = 0;
+
       if(this.DaftarSalesItem !== null)
       {
         // https://chatgpt.com/share/214d3e88-4dd2-4cdb-ba4f-fc682146f158
@@ -216,19 +249,26 @@ export class HomePage implements OnInit {
           this.sum_item3 += item.item3_qty * item.item3_price
           this.sum_item4 += item.item4_qty * item.item4_price
           this.sum_item5 += item.item5_qty * item.item5_price
-          // free
-          this.sum_item1free += item.item1_qtyfree * item.item1_price
-          this.sum_item2free += item.item2_qtyfree * item.item2_price
-          this.sum_item3free += item.item3_qtyfree * item.item3_price
-          this.sum_item4free += item.item4_qtyfree * item.item4_price
-          this.sum_item5free += item.item5_qtyfree * item.item5_price
+          // // free
+          // this.sum_item1free += item.item1_qtyfree * item.item1_price
+          // this.sum_item2free += item.item2_qtyfree * item.item2_price
+          // this.sum_item3free += item.item3_qtyfree * item.item3_price
+          // this.sum_item4free += item.item4_qtyfree * item.item4_price
+          // this.sum_item5free += item.item5_qtyfree * item.item5_price
 
-          // retur
-          this.sum_item1retur += item.item1_qtyretur * item.item1_price
-          this.sum_item2retur += item.item2_qtyretur * item.item2_price
-          this.sum_item3retur += item.item3_qtyretur * item.item3_price
-          this.sum_item4retur += item.item4_qtyretur * item.item4_price
-          this.sum_item5retur += item.item5_qtyretur * item.item5_price
+          // // retur
+          // this.sum_item1retur += item.item1_qtyretur * item.item1_price
+          // this.sum_item2retur += item.item2_qtyretur * item.item2_price
+          // this.sum_item3retur += item.item3_qtyretur * item.item3_price
+          // this.sum_item4retur += item.item4_qtyretur * item.item4_price
+          // this.sum_item5retur += item.item5_qtyretur * item.item5_price
+
+          // item total qty
+          this.item1_totalqty += item.item1_qty
+          this.item2_totalqty += item.item2_qty
+          this.item3_totalqty += item.item3_qty
+          this.item4_totalqty += item.item4_qty
+          this.item5_totalqty += item.item5_qty
           
           if(item.payment_type == 1) // Cash
           {
@@ -387,6 +427,10 @@ export class HomePage implements OnInit {
     {
       this.presentToast("Anda belum memilih Sales / Truck!");
     }
+    else if(this.input_item1SJE + this.input_item2SJE + this.input_item3SJE + this.input_item4SJE + this.input_item5SJE == 0)
+    {
+      this.presentToast("Anda belum mengisi jumlah item SJE!");
+    }
     else
     {
       const tokenapps = await this.storage.get('userlogin_tokenapps');
@@ -399,6 +443,11 @@ export class HomePage implements OnInit {
       formData.set('sales_id3', this.sales_id3.toString());
       formData.set('truck_id', this.truck_id.toString());
       formData.set('ware_id', wareid.toString());
+      formData.set('input_item1SJE', this.input_item1SJE.toString());
+      formData.set('input_item2SJE', this.input_item2SJE.toString());
+      formData.set('input_item3SJE', this.input_item3SJE.toString());
+      formData.set('input_item4SJE', this.input_item4SJE.toString());
+      formData.set('input_item5SJE', this.input_item5SJE.toString());
 
       this.http.post('https://project.graylite.com/unitice/mobile/start.php', formData)
       .subscribe((data) => {
@@ -416,8 +465,12 @@ export class HomePage implements OnInit {
           this.storage.set('DaftarJenisBiaya',this.dataSalesStart.DaftarJenisBiaya);
           this.storage.set('DaftarNamaItem',this.dataSalesStart.DaftarNamaItem);
           this.storage.set('DaftarHargaItem',this.dataSalesStart.DaftarHargaItem);
+          this.storage.set('doc_item1_SJE', this.input_item1SJE);
+          this.storage.set('doc_item2_SJE', this.input_item2SJE);
+          this.storage.set('doc_item3_SJE', this.input_item3SJE);
+          this.storage.set('doc_item4_SJE', this.input_item4SJE);
+          this.storage.set('doc_item5_SJE', this.input_item5SJE);
           this.doc_no = this.dataSalesStart.doc_no;
-
           
           (<HTMLInputElement> document.getElementById("btn-sales")).disabled = false;
           (<HTMLInputElement> document.getElementById("btn-biaya")).disabled = false;
@@ -429,6 +482,35 @@ export class HomePage implements OnInit {
           this.sales_id2=0;
           this.sales_id3=0;
           this.truck_id=0;
+
+          this.sum_cash = 0;
+          this.sum_BB = 0;
+          this.sum_tagihan_BB = 0;
+          this.sum_tagihan_credit = 0;
+          this.sum_item1 = 0;
+          this.sum_item2 = 0;
+          this.sum_item3 = 0;
+          this.sum_item4 = 0;
+          this.sum_item5 = 0;
+          this.sum_biaya = 0;
+
+          this.item1_totalqty = 0;
+          this.item2_totalqty = 0;
+          this.item3_totalqty = 0;
+          this.item4_totalqty = 0;
+          this.item5_totalqty = 0;
+
+          this.item1_SJE = this.input_item1SJE;
+          this.item2_SJE = this.input_item2SJE;
+          this.item3_SJE = this.input_item3SJE;
+          this.item4_SJE = this.input_item4SJE;
+          this.item5_SJE = this.input_item5SJE;
+          
+          this.input_item1SJE=0;
+          this.input_item2SJE=0;
+          this.input_item3SJE=0;
+          this.input_item4SJE=0;
+          this.input_item5SJE=0;
         }
         loading.dismiss();
       },
@@ -455,6 +537,11 @@ export class HomePage implements OnInit {
     this.sales_id2=0;
     this.sales_id3=0;
     this.truck_id=0;
+    this.input_item1SJE=0;
+    this.input_item2SJE=0;
+    this.input_item3SJE=0;
+    this.input_item4SJE=0;
+    this.input_item5SJE=0;
 
     (<HTMLInputElement> document.getElementById("btn-start00")).disabled = false;
 
@@ -463,68 +550,10 @@ export class HomePage implements OnInit {
 
   async finish()
   {
-    const loading = await this.loadingController.create({
-      cssClass: 'loading-custom',
-      message: 'Please wait...'
-    });
-    await loading.present(); 
-
-    const tokenapps = await this.storage.get('userlogin_tokenapps');
-    const daftarsalesitem = await this.storage.get('DaftarSalesItem');
-    const daftarbiaya = await this.storage.get('DaftarBiaya');
-    const doc_id = await this.storage.get('doc_id');
-    const doc_no = await this.storage.get('doc_no');
-    // console.log(tokenapps);
-    var formData : FormData = new FormData();
-    formData.set('tokenapps', tokenapps);
-    formData.set('doc_id', doc_id);
-    formData.set('doc_no', doc_no);
-    formData.set('DaftarSalesItem', JSON.stringify(daftarsalesitem));
-    formData.set('DaftarBiaya', JSON.stringify(daftarbiaya));
-
-    this.http.post('https://project.graylite.com/unitice/mobile/finish.php', formData)
-    .subscribe((data) => {
-      // console.log('data', data);
-      this.dataSalesStart=data;
-      if(this.dataSalesStart.error==true){
-        this.presentToast(this.dataSalesStart.message);
-        // console.log(this.dataSalesStart.message);
-      }else{
-        this.presentToast(this.dataSalesStart.message);
-        this.storage.remove('doc_no');
-        this.storage.remove('doc_id');
-        this.storage.remove('doc_no_nota');
-        this.storage.remove('doc_kode_nota_terakhir');
-        this.storage.remove('sales_cust_id_add');
-        this.storage.remove('DaftarSalesItem');
-        this.storage.remove('DaftarBiaya');
-        this.doc_no = '';
-
-        this.sum_cash = 0;
-        this.sum_BB = 0;
-        this.sum_tagihan_BB = 0;
-        this.sum_tagihan_credit = 0;
-        this.sum_item1 = 0;
-        this.sum_item2 = 0;
-        this.sum_item3 = 0;
-        this.sum_item4 = 0;
-        this.sum_item5 = 0;
-        this.sum_biaya = 0;
-
-        (<HTMLInputElement> document.getElementById("btn-sales")).disabled = true;
-        (<HTMLInputElement> document.getElementById("btn-biaya")).disabled = true;
-        (<HTMLInputElement> document.getElementById("btn-start00")).disabled = false;
-        (<HTMLInputElement> document.getElementById("btn-finish")).disabled = true;
-      }
-      loading.dismiss();
-    },
-    error => {
-      let message='Failed to sync data, please re-open App!';
-        this.presentToast(message);
-        loading.dismiss();
-    });
-
-    loading.dismiss();
+    const loadingIndicator = await this.showLoadingIndictator();
+    
+    await this.router.navigate(['/finish']);
+    loadingIndicator.dismiss();
   }
   async history()
   {
@@ -579,6 +608,67 @@ export class HomePage implements OnInit {
     });
 
     loading.dismiss();
+  }
+
+  // item 1 SJE
+  onItem1SJEChange(event: any): void {
+    let value = event.detail.value;
+
+    // Remove leading zero
+    if (value.length == 2 && value.startsWith('0')) {
+      value = value.replace(/^0+/, '');
+    }
+
+    // Update the model value
+    this.input_item1SJE = value;
+  }
+  // item 2 SJE
+  onItem2SJEChange(event: any): void {
+    let value = event.detail.value;
+
+    // Remove leading zero
+    if (value.length == 2 && value.startsWith('0')) {
+      value = value.replace(/^0+/, '');
+    }
+
+    // Update the model value
+    this.input_item2SJE = value;
+  }
+  // item 3 SJE
+  onItem3SJEChange(event: any): void {
+    let value = event.detail.value;
+
+    // Remove leading zero
+    if (value.length == 2 && value.startsWith('0')) {
+      value = value.replace(/^0+/, '');
+    }
+
+    // Update the model value
+    this.input_item3SJE = value;
+  }
+  // item 4 SJE
+  onItem4SJEChange(event: any): void {
+    let value = event.detail.value;
+
+    // Remove leading zero
+    if (value.length == 2 && value.startsWith('0')) {
+      value = value.replace(/^0+/, '');
+    }
+
+    // Update the model value
+    this.input_item4SJE = value;
+  }
+  // item 5 SJE
+  onItem5SJEChange(event: any): void {
+    let value = event.detail.value;
+
+    // Remove leading zero
+    if (value.length == 2 && value.startsWith('0')) {
+      value = value.replace(/^0+/, '');
+    }
+
+    // Update the model value
+    this.input_item5SJE = value;
   }
 
   async presentToast(Message: string) {

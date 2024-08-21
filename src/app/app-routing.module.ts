@@ -63,6 +63,10 @@ const routes: Routes = [
   {
     path: 'start',
     loadChildren: () => import('./start/start.module').then( m => m.StartPageModule)
+  },
+  {
+    path: 'finish',
+    loadChildren: () => import('./finish/finish.module').then( m => m.FinishPageModule)
   }
 ];
 
