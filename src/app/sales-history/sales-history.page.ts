@@ -16,7 +16,12 @@ export class SalesHistoryPage implements OnInit {
     cash: string, BB: string,
     tagihan_BB: string, tagihan_credit: string,
     total_biaya: string,
-    item1_total: string, item2_total: string, item3_total: string, item4_total: string, item5_total: string}[] = [];
+    item1_total: string, item2_total: string, item3_total: string, item4_total: string, item5_total: string,
+    item1_SJE: string, item2_SJE: string, item3_SJE: string, item4_SJE: string, item5_SJE: string,
+    item1_Retur: string, item2_Retur: string, item3_Retur: string, item4_Retur: string, item5_Retur: string,
+    item1_Free: string, item2_Free: string, item3_Free: string, item4_Free: string, item5_Free: string}[] = [];
+
+  ware_id: number = 0;
 
   constructor(
     private storage: Storage,
@@ -36,6 +41,8 @@ export class SalesHistoryPage implements OnInit {
     // console.log(tokenapps);
     var formData : FormData = new FormData();
     formData.set('tokenapps', tokenapps);
+    
+    await this.storage.get('userlogin_wareid').then( res => this.ware_id = res );
 
     this.http.post('https://project.graylite.com/unitice/mobile/history.php', formData)
     .subscribe((data) => {
