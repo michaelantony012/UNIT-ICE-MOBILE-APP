@@ -798,124 +798,129 @@ export class SalesEditPage implements OnInit {
     
     // console.log((1234567.89).toLocaleString('en-us', {minimumFractionDigits: 2}));
 
-    
-    await this.TurnOnBold(this.deviceId, this.serviceUuid, this.characteristicUuid);
-    // await this.FeedCenter(this.deviceId, this.serviceUuid, this.characteristicUuid);
-
-    await this.WriteData(this.deviceId, this.serviceUuid, this.characteristicUuid, '************ UNIT ICE **********');
-    await this.WriteData(this.deviceId, this.serviceUuid, this.characteristicUuid, '---------CUSTOMER RECEIPT-------');
-    await this.UnderLine(this.deviceId, this.serviceUuid, this.characteristicUuid);
-    await this.TurnOffBold(this.deviceId, this.serviceUuid, this.characteristicUuid);
-    await this.FeedLeft(this.deviceId, this.serviceUuid, this.characteristicUuid);
-    
-    const currentDate = formatDate(new Date(), "dd/MM/yyyy hh:mm a", "en");
-    await this.WriteData(this.deviceId, this.serviceUuid, this.characteristicUuid, currentDate);
-    await this.WriteData(this.deviceId, this.serviceUuid, this.characteristicUuid,
-      this.sales_cust_name);
-    await this.WriteData(this.deviceId, this.serviceUuid, this.characteristicUuid,
-      'No: '+this.sales_nomor_nota);
-    
-    await this.WriteData(this.deviceId, this.serviceUuid, this.characteristicUuid,
-      '');
-    // console.log(this.input_item1qty);
-
-    let message = '';
-    let message1 = '';
-    let message2 = '';
-    let message3 = '';
-    if(this.input_item1qty ? this.input_item1qty : 0 > 0)
+    let perulangan = (this.input_payment_type == 3 ? 3 : 1);
+    for (let i = 0; i < perulangan; i++)
     {
-      message1 = this.item1_name.trim();
-      message2 = this.input_item1price.toLocaleString('en-us', {minimumFractionDigits: 0})
-      +' x '+this.input_item1qty.toLocaleString('en-us', {minimumFractionDigits: 0});
-      message3 = this.input_item1total.toLocaleString('en-us', {minimumFractionDigits: 0});
+      await this.TurnOnBold(this.deviceId, this.serviceUuid, this.characteristicUuid);
+      // await this.FeedCenter(this.deviceId, this.serviceUuid, this.characteristicUuid);
 
-      message = this.getPrintTextPerItem(message1, message2, message3);
+      await this.WriteData(this.deviceId, this.serviceUuid, this.characteristicUuid, '************ UNIT ICE **********');
+      await this.WriteData(this.deviceId, this.serviceUuid, this.characteristicUuid, '---------CUSTOMER RECEIPT-------');
+      await this.UnderLine(this.deviceId, this.serviceUuid, this.characteristicUuid);
+      await this.TurnOffBold(this.deviceId, this.serviceUuid, this.characteristicUuid);
+      await this.FeedLeft(this.deviceId, this.serviceUuid, this.characteristicUuid);
       
+      let message = '';
+      let message1 = '';
+      let message2 = '';
+      let message3 = '';
+      message1 = formatDate(new Date(), "dd/MM/yyyy hh:mm a", "en");
+      message2 = (i==0 ? "" : (i==1 ? "COPY" : (i==2 ? "ARSIP" : "")));
+      message = this.getPrintTextTotal(message1, message2);
       await this.WriteData(this.deviceId, this.serviceUuid, this.characteristicUuid, message);
-
-    }
-    
-    if(this.input_item2qty ? this.input_item2qty : 0 > 0)
-    {
-      message1 = this.item2_name.trim();
-      message2 = this.input_item2price.toLocaleString('en-us', {minimumFractionDigits: 0})
-      +' x '+this.input_item2qty.toLocaleString('en-us', {minimumFractionDigits: 0});
-      message3 = this.input_item2total.toLocaleString('en-us', {minimumFractionDigits: 0});
-
-      message = this.getPrintTextPerItem(message1, message2, message3);
+      await this.WriteData(this.deviceId, this.serviceUuid, this.characteristicUuid,
+        this.sales_cust_name);
+      await this.WriteData(this.deviceId, this.serviceUuid, this.characteristicUuid,
+        'No: '+this.sales_nomor_nota);
       
-      await this.WriteData(this.deviceId, this.serviceUuid, this.characteristicUuid, message);
+      await this.WriteData(this.deviceId, this.serviceUuid, this.characteristicUuid,
+        '');
+      // console.log(this.input_item1qty);
 
-    }
+      if(this.input_item1qty ? this.input_item1qty : 0 > 0)
+      {
+        message1 = this.item1_name.trim();
+        message2 = this.input_item1price.toLocaleString('en-us', {minimumFractionDigits: 0})
+        +' x '+this.input_item1qty.toLocaleString('en-us', {minimumFractionDigits: 0});
+        message3 = this.input_item1total.toLocaleString('en-us', {minimumFractionDigits: 0});
 
-    if(this.input_item3qty ? this.input_item3qty : 0 > 0)
-    {
-      message1 = this.item3_name.trim();
-      message2 = this.input_item3price.toLocaleString('en-us', {minimumFractionDigits: 0})
-      +' x '+this.input_item3qty.toLocaleString('en-us', {minimumFractionDigits: 0});
-      message3 = this.input_item3total.toLocaleString('en-us', {minimumFractionDigits: 0});
+        message = this.getPrintTextPerItem(message1, message2, message3);
+        
+        await this.WriteData(this.deviceId, this.serviceUuid, this.characteristicUuid, message);
 
-      message = this.getPrintTextPerItem(message1, message2, message3);
+      }
       
+      if(this.input_item2qty ? this.input_item2qty : 0 > 0)
+      {
+        message1 = this.item2_name.trim();
+        message2 = this.input_item2price.toLocaleString('en-us', {minimumFractionDigits: 0})
+        +' x '+this.input_item2qty.toLocaleString('en-us', {minimumFractionDigits: 0});
+        message3 = this.input_item2total.toLocaleString('en-us', {minimumFractionDigits: 0});
+
+        message = this.getPrintTextPerItem(message1, message2, message3);
+        
+        await this.WriteData(this.deviceId, this.serviceUuid, this.characteristicUuid, message);
+
+      }
+
+      if(this.input_item3qty ? this.input_item3qty : 0 > 0)
+      {
+        message1 = this.item3_name.trim();
+        message2 = this.input_item3price.toLocaleString('en-us', {minimumFractionDigits: 0})
+        +' x '+this.input_item3qty.toLocaleString('en-us', {minimumFractionDigits: 0});
+        message3 = this.input_item3total.toLocaleString('en-us', {minimumFractionDigits: 0});
+
+        message = this.getPrintTextPerItem(message1, message2, message3);
+        
+        await this.WriteData(this.deviceId, this.serviceUuid, this.characteristicUuid, message);
+
+      }
+
+      if(this.input_item4qty ? this.input_item4qty : 0 > 0)
+      {
+        message1 = this.item4_name.trim();
+        message2 = this.input_item4price.toLocaleString('en-us', {minimumFractionDigits: 0})
+        +' x '+this.input_item4qty.toLocaleString('en-us', {minimumFractionDigits: 0});
+        message3 = this.input_item4total.toLocaleString('en-us', {minimumFractionDigits: 0});
+
+        message = this.getPrintTextPerItem(message1, message2, message3);
+        
+        await this.WriteData(this.deviceId, this.serviceUuid, this.characteristicUuid, message);
+
+      }
+
+      if(this.input_item5qty ? this.input_item5qty : 0 > 0)
+      {
+        message1 = this.item5_name.trim();
+        message2 = this.input_item5price.toLocaleString('en-us', {minimumFractionDigits: 0})
+        +' x '+this.input_item5qty.toLocaleString('en-us', {minimumFractionDigits: 0});
+        message3 = this.input_item5total.toLocaleString('en-us', {minimumFractionDigits: 0});
+
+        message = this.getPrintTextPerItem(message1, message2, message3);
+        
+        await this.WriteData(this.deviceId, this.serviceUuid, this.characteristicUuid, message);
+
+      }
+
+      await this.TurnOnBold(this.deviceId, this.serviceUuid, this.characteristicUuid);
+      await this.UnderLine(this.deviceId, this.serviceUuid, this.characteristicUuid);
+      message1 = 'TOTAL';
+      message2 = this.input_totalkeseluruhan.toLocaleString('en-us', {minimumFractionDigits: 0});
+      message = this.getPrintTextTotal(message1, message2);
       await this.WriteData(this.deviceId, this.serviceUuid, this.characteristicUuid, message);
-
-    }
-
-    if(this.input_item4qty ? this.input_item4qty : 0 > 0)
-    {
-      message1 = this.item4_name.trim();
-      message2 = this.input_item4price.toLocaleString('en-us', {minimumFractionDigits: 0})
-      +' x '+this.input_item4qty.toLocaleString('en-us', {minimumFractionDigits: 0});
-      message3 = this.input_item4total.toLocaleString('en-us', {minimumFractionDigits: 0});
-
-      message = this.getPrintTextPerItem(message1, message2, message3);
+      await this.TurnOffBold(this.deviceId, this.serviceUuid, this.characteristicUuid);
       
-      await this.WriteData(this.deviceId, this.serviceUuid, this.characteristicUuid, message);
-
-    }
-
-    if(this.input_item5qty ? this.input_item5qty : 0 > 0)
-    {
-      message1 = this.item5_name.trim();
-      message2 = this.input_item5price.toLocaleString('en-us', {minimumFractionDigits: 0})
-      +' x '+this.input_item5qty.toLocaleString('en-us', {minimumFractionDigits: 0});
-      message3 = this.input_item5total.toLocaleString('en-us', {minimumFractionDigits: 0});
-
-      message = this.getPrintTextPerItem(message1, message2, message3);
+      // await this.NewEmptyLine(this.deviceId, this.serviceUuid, this.characteristicUuid);
+      await this.WriteData(this.deviceId, this.serviceUuid, this.characteristicUuid,
+        '');
       
-      await this.WriteData(this.deviceId, this.serviceUuid, this.characteristicUuid, message);
-
+      await this.FeedCenter(this.deviceId, this.serviceUuid, this.characteristicUuid);
+      await this.WriteData(this.deviceId, this.serviceUuid, this.characteristicUuid, "Please Collect your receipt.");
+      await this.FeedCenter(this.deviceId, this.serviceUuid, this.characteristicUuid);
+      await this.WriteData(this.deviceId, this.serviceUuid, this.characteristicUuid, "---Thank you---");
+      
+      // await this.NewEmptyLine(this.deviceId, this.serviceUuid, this.characteristicUuid);
+      // await this.NewEmptyLine(this.deviceId, this.serviceUuid, this.characteristicUuid);
+      
+      await this.WriteData(this.deviceId, this.serviceUuid, this.characteristicUuid,
+        '');
+      await this.WriteData(this.deviceId, this.serviceUuid, this.characteristicUuid,
+        '');
+      await this.WriteData(this.deviceId, this.serviceUuid, this.characteristicUuid,
+        '');
+      await this.WriteData(this.deviceId, this.serviceUuid, this.characteristicUuid,
+        '');
     }
-
-    await this.TurnOnBold(this.deviceId, this.serviceUuid, this.characteristicUuid);
-    await this.UnderLine(this.deviceId, this.serviceUuid, this.characteristicUuid);
-    message1 = 'TOTAL';
-    message2 = this.input_totalkeseluruhan.toLocaleString('en-us', {minimumFractionDigits: 0});
-    message = this.getPrintTextTotal(message1, message2);
-    await this.WriteData(this.deviceId, this.serviceUuid, this.characteristicUuid, message);
-    await this.TurnOffBold(this.deviceId, this.serviceUuid, this.characteristicUuid);
-    
-    // await this.NewEmptyLine(this.deviceId, this.serviceUuid, this.characteristicUuid);
-    await this.WriteData(this.deviceId, this.serviceUuid, this.characteristicUuid,
-      '');
-    
-    await this.FeedCenter(this.deviceId, this.serviceUuid, this.characteristicUuid);
-    await this.WriteData(this.deviceId, this.serviceUuid, this.characteristicUuid, "Please Collect your receipt.");
-    await this.FeedCenter(this.deviceId, this.serviceUuid, this.characteristicUuid);
-    await this.WriteData(this.deviceId, this.serviceUuid, this.characteristicUuid, "---Thank you---");
-    
-    // await this.NewEmptyLine(this.deviceId, this.serviceUuid, this.characteristicUuid);
-    // await this.NewEmptyLine(this.deviceId, this.serviceUuid, this.characteristicUuid);
-    
-    await this.WriteData(this.deviceId, this.serviceUuid, this.characteristicUuid,
-      '');
-    await this.WriteData(this.deviceId, this.serviceUuid, this.characteristicUuid,
-      '');
-    await this.WriteData(this.deviceId, this.serviceUuid, this.characteristicUuid,
-      '');
-    await this.WriteData(this.deviceId, this.serviceUuid, this.characteristicUuid,
-      '');
 
     await this.Disconnect(this.deviceId);
     

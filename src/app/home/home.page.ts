@@ -27,6 +27,7 @@ export class HomePage implements OnInit {
     cust_edited: number, cust_added: number, nomor_nota: string}[] = [];
   sum_cash: any = 0;
   sum_BB: any = 0;
+  sum_CR: any = 0;
   sum_tagihan_BB: any = 0;
   sum_tagihan_credit: any = 0;
   sum_item1: any = 0;
@@ -86,6 +87,8 @@ export class HomePage implements OnInit {
   item3_totalqty: number = 0;
   item4_totalqty: number = 0;
   item5_totalqty: number = 0;
+
+  harga_rata2_perkg : number = 0;
 
   // Confirmation Dialog untuk Finish button
   // https://ionicframework.com/docs/api/alert#buttons
@@ -209,6 +212,7 @@ export class HomePage implements OnInit {
       
       this.sum_cash = 0;
       this.sum_BB = 0;
+      this.sum_CR = 0;
       this.sum_tagihan_BB = 0;
       this.sum_tagihan_credit = 0;
       this.sum_item1 = 0;
@@ -235,6 +239,8 @@ export class HomePage implements OnInit {
       this.item3_totalqty = 0;
       this.item4_totalqty = 0;
       this.item5_totalqty = 0;
+
+      this.harga_rata2_perkg = 0;
 
       if(this.DaftarSalesItem !== null)
       {
@@ -287,6 +293,17 @@ export class HomePage implements OnInit {
             item.item4_qty * item.item4_price +
             item.item5_qty * item.item5_price;
           }
+          else if(item.payment_type == 3) // Credit
+          {
+            this.sum_CR += item.item1_qty * item.item1_price +
+            item.item2_qty * item.item2_price +
+            item.item3_qty * item.item3_price +
+            item.item4_qty * item.item4_price +
+            item.item5_qty * item.item5_price;
+          }
+
+          this.harga_rata2_perkg = Math.round ( ( this.sum_cash + this.sum_BB + this.sum_CR ) / 
+            ( (this.item1_totalqty * 5) + (this.item2_totalqty * 10) + (this.item3_totalqty * 20) + (this.item4_totalqty * 10) + (this.item5_totalqty * 10) ) ); // nb: rumus: total cast + BB + CR dibagi jumlah KG
           
           return acc;
         }, {sum_cash: 0, sum_item1: 0, sum_item2: 0, sum_item3: 0, sum_item4: 0, sum_item5: 0});
@@ -485,6 +502,7 @@ export class HomePage implements OnInit {
 
           this.sum_cash = 0;
           this.sum_BB = 0;
+          this.sum_CR = 0;
           this.sum_tagihan_BB = 0;
           this.sum_tagihan_credit = 0;
           this.sum_item1 = 0;
@@ -499,6 +517,8 @@ export class HomePage implements OnInit {
           this.item3_totalqty = 0;
           this.item4_totalqty = 0;
           this.item5_totalqty = 0;
+          
+          this.harga_rata2_perkg = 0;
 
           this.item1_SJE = this.input_item1SJE;
           this.item2_SJE = this.input_item2SJE;

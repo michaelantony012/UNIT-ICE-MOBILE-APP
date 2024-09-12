@@ -150,10 +150,21 @@
   background-color: black;
   overflow: scroll;"
   >
-    <h1 >Summary</h1>
+    <h1 style="margin-top: 1px;">Summary</h1>
     <table *ngIf="doc_no !== ''" style="font-size: large; width: 100%;">
       <tr>
         <td>
+        </td>
+      </tr>
+      <tr>
+        <td style="width: 35%;">
+          Harga Rata"/kg
+        </td>
+        <td style="width: 10%; text-align: left;">
+          :
+        </td>
+        <td style="width: 45%;">
+          {{ harga_rata2_perkg | number: '':'en' }}
         </td>
       </tr>
       <tr>
@@ -176,6 +187,17 @@
         </td>
         <td style="width: 45%;">
           {{ sum_BB | number: '':'en' }}
+        </td>
+      </tr>
+      <tr>
+        <td style="width: 35%;">
+          Total CR
+        </td>
+        <td style="width: 10%; text-align: left;">
+          :
+        </td>
+        <td style="width: 45%;">
+          {{ sum_CR | number: '':'en' }}
         </td>
       </tr>
       <tr>
