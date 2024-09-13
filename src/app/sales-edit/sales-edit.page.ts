@@ -798,8 +798,8 @@ export class SalesEditPage implements OnInit {
     
     // console.log((1234567.89).toLocaleString('en-us', {minimumFractionDigits: 2}));
 
-    let perulangan = (this.input_payment_type == 3 ? 3 : 1);
-    for (let i = 0; i < perulangan; i++)
+    let perulangan = (this.input_payment_type == 3 ? 3 : 1); // nota credit print rangkap 3 (kosong, copy, arsip)
+    for (let i = 0; i < perulangan; i++) // perulangan nota rangkap
     {
       await this.TurnOnBold(this.deviceId, this.serviceUuid, this.characteristicUuid);
       // await this.FeedCenter(this.deviceId, this.serviceUuid, this.characteristicUuid);
@@ -815,7 +815,7 @@ export class SalesEditPage implements OnInit {
       let message2 = '';
       let message3 = '';
       message1 = formatDate(new Date(), "dd/MM/yyyy hh:mm a", "en");
-      message2 = (i==0 ? "" : (i==1 ? "COPY" : (i==2 ? "ARSIP" : "")));
+      message2 = (i==0 ? "" : (i==1 ? "COPY" : (i==2 ? "ARSIP" : ""))); // ket. nota rangkap
       message = this.getPrintTextTotal(message1, message2);
       await this.WriteData(this.deviceId, this.serviceUuid, this.characteristicUuid, message);
       await this.WriteData(this.deviceId, this.serviceUuid, this.characteristicUuid,
