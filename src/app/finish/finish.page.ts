@@ -88,6 +88,7 @@ export class FinishPage implements OnInit {
         await this.storage.remove('doc_no');
         await this.storage.remove('doc_id');
         await this.storage.remove('doc_no_nota');
+        await this.storage.remove('target_rute');
         await this.storage.remove('doc_kode_nota_terakhir');
         await this.storage.remove('doc_item1_SJE');
         await this.storage.remove('doc_item2_SJE');

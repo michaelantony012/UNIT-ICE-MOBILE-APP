@@ -89,6 +89,7 @@ export class HomePage implements OnInit {
   item5_totalqty: number = 0;
 
   harga_rata2_perkg : number = 0;
+  target_rute : number = 0;
 
   // Confirmation Dialog untuk Finish button
   // https://ionicframework.com/docs/api/alert#buttons
@@ -170,6 +171,7 @@ export class HomePage implements OnInit {
     
     // set disabled & enabled button
     await this.storage.get('doc_no').then( res => this.doc_no = res??"" );
+    await this.storage.get('target_rute').then( res => this.target_rute = res??0 );
     await this.storage.get('userlogin_userlogin').then( res => this.userlogin = res );
     await this.storage.get('userlogin_warecity').then( res => this.ware_city = res );
     await this.storage.get('userlogin_wareid').then( res => this.ware_id = res );
@@ -301,13 +303,14 @@ export class HomePage implements OnInit {
             item.item4_qty * item.item4_price +
             item.item5_qty * item.item5_price;
           }
-
-          this.harga_rata2_perkg = Math.round ( ( this.sum_cash + this.sum_BB + this.sum_CR ) / 
-            ( (this.item1_totalqty * 5) + (this.item2_totalqty * 10) + (this.item3_totalqty * 20) + (this.item4_totalqty * 10) + (this.item5_totalqty * 10) ) ); // nb: rumus: total cast + BB + CR dibagi jumlah KG
           
           return acc;
         }, {sum_cash: 0, sum_item1: 0, sum_item2: 0, sum_item3: 0, sum_item4: 0, sum_item5: 0});
       }
+      
+      this.harga_rata2_perkg = Math.round ( ( this.sum_cash + this.sum_BB + this.sum_CR ) / 
+      ( (this.item1_totalqty * 5) + (this.item2_totalqty * 10) + (this.item3_totalqty * 20) + (this.item4_totalqty * 10) + (this.item5_totalqty * 10) ) ); // nb: rumus: total cast + BB + CR dibagi jumlah KG
+      
       if(this.DaftarBiaya !== null)
       {
         let result2 = this.DaftarBiaya.reduce((acc, item) => {
@@ -477,6 +480,7 @@ export class HomePage implements OnInit {
           this.storage.set('doc_no', this.dataSalesStart.doc_no);
           this.storage.set('doc_id',this.dataSalesStart.doc_id);
           this.storage.set('doc_no_nota', this.dataSalesStart.doc_no_nota);
+          this.storage.set('target_rute', this.dataSalesStart.target_rute);
           this.storage.set('doc_kode_nota_terakhir', 0);
           this.storage.set('DaftarSalesItem',this.dataSalesStart.DaftarSalesItem);
           this.storage.set('DaftarJenisBiaya',this.dataSalesStart.DaftarJenisBiaya);
@@ -488,6 +492,7 @@ export class HomePage implements OnInit {
           this.storage.set('doc_item4_SJE', this.input_item4SJE);
           this.storage.set('doc_item5_SJE', this.input_item5SJE);
           this.doc_no = this.dataSalesStart.doc_no;
+          this.target_rute = this.dataSalesStart.target_rute;
           
           (<HTMLInputElement> document.getElementById("btn-sales")).disabled = false;
           (<HTMLInputElement> document.getElementById("btn-biaya")).disabled = false;

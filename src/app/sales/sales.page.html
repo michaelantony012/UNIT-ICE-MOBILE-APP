@@ -26,6 +26,7 @@
       <ion-reorder-group [disabled]="false" (ionItemReorder)="handleReorder($any($event))">
         <ion-item *ngFor="let item of DaftarSalesItem">
           <ion-label>{{item.cust_name}}</ion-label>
+          <ion-icon *ngIf="item.nomor_nota != ''" name="receipt-outline"></ion-icon>
           <div slot="end" style="align-items: start; width: 30px;">
             <ion-label style="align-items: start;">{{item.cust_type==1?'CR':(item.cust_type==2?'DP':(item.cust_type==3?'RT':''))}}</ion-label>
           </div>

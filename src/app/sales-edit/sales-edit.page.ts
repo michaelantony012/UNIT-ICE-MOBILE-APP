@@ -19,6 +19,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class SalesEditPage implements OnInit {
   public sales_cust_id: number = 0;
   public sales_cust_name: any = '';
+  public sales_cust_type: number = 0;
   public sales_nomor_nota: any;
   public doc_kode_nota_terakhir: number = 0;
   public doc_no_nota: any;
@@ -114,6 +115,10 @@ export class SalesEditPage implements OnInit {
     this.sales_cust_id = await this.storage.get('sales_cust_id');
     this.sales_cust_name = await this.storage.get('sales_cust_name');
 
+    // jika tipe customer CR , maka default jenis pembayaran yg terpilih ada CR , selain itu CASH
+    this.sales_cust_type = await this.storage.get('sales_cust_type');
+    this.input_payment_type = this.sales_cust_type == 1? 3 : 1;
+
     this.sales_nomor_nota = await this.storage.get('sales_nomor_nota');
     // JIka sales_nomor_nota kosong, tampilkan dgn nomor terakhir 
     if(this.sales_nomor_nota == '')
@@ -124,8 +129,7 @@ export class SalesEditPage implements OnInit {
         this.sales_nomor_nota =
           this.route_no + '-' + this.doc_no_nota + '-' + ('000'+(this.doc_kode_nota_terakhir+1).toString()).substr(-3,3);
       }
-
-    this.input_payment_type = await this.storage.get('sales_payment_type');
+    
     this.input_BB = await this.storage.get('sales_nilai_BB');
     this.input_BB = Intl.NumberFormat('en-US', { maximumFractionDigits: 0 }).format(this.input_BB);
     this.input_credit = await this.storage.get('sales_nilai_credit');
