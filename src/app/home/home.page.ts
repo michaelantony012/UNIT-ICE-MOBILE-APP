@@ -463,11 +463,11 @@ export class HomePage implements OnInit {
       formData.set('sales_id3', this.sales_id3.toString());
       formData.set('truck_id', this.truck_id.toString());
       formData.set('ware_id', wareid.toString());
-      formData.set('input_item1SJE', this.input_item1SJE.toString());
-      formData.set('input_item2SJE', this.input_item2SJE.toString());
-      formData.set('input_item3SJE', this.input_item3SJE.toString());
-      formData.set('input_item4SJE', this.input_item4SJE.toString());
-      formData.set('input_item5SJE', this.input_item5SJE.toString());
+      formData.set('input_item1SJE', this.input_item1SJE.toString()=="" ? "0": this.input_item1SJE.toString());
+      formData.set('input_item2SJE', this.input_item2SJE.toString()=="" ? "0": this.input_item2SJE.toString());
+      formData.set('input_item3SJE', this.input_item3SJE.toString()=="" ? "0": this.input_item3SJE.toString());
+      formData.set('input_item4SJE', this.input_item4SJE.toString()=="" ? "0": this.input_item4SJE.toString());
+      formData.set('input_item5SJE', this.input_item5SJE.toString()=="" ? "0": this.input_item5SJE.toString());
 
       this.http.post('https://project.graylite.com/unitice/mobile/start.php', formData)
       .subscribe((data) => {
@@ -486,11 +486,11 @@ export class HomePage implements OnInit {
           this.storage.set('DaftarJenisBiaya',this.dataSalesStart.DaftarJenisBiaya);
           this.storage.set('DaftarNamaItem',this.dataSalesStart.DaftarNamaItem);
           this.storage.set('DaftarHargaItem',this.dataSalesStart.DaftarHargaItem);
-          this.storage.set('doc_item1_SJE', this.input_item1SJE);
-          this.storage.set('doc_item2_SJE', this.input_item2SJE);
-          this.storage.set('doc_item3_SJE', this.input_item3SJE);
-          this.storage.set('doc_item4_SJE', this.input_item4SJE);
-          this.storage.set('doc_item5_SJE', this.input_item5SJE);
+          this.storage.set('doc_item1_SJE', this.input_item1SJE.toString()=="" ? 0 : this.input_item1SJE);
+          this.storage.set('doc_item2_SJE', this.input_item2SJE.toString()=="" ? 0 : this.input_item2SJE);
+          this.storage.set('doc_item3_SJE', this.input_item3SJE.toString()=="" ? 0 : this.input_item3SJE);
+          this.storage.set('doc_item4_SJE', this.input_item4SJE.toString()=="" ? 0 : this.input_item4SJE);
+          this.storage.set('doc_item5_SJE', this.input_item5SJE.toString()=="" ? 0 : this.input_item5SJE);
           this.doc_no = this.dataSalesStart.doc_no;
           this.target_rute = this.dataSalesStart.target_rute;
           
