@@ -306,11 +306,19 @@ export class HomePage implements OnInit {
           
           return acc;
         }, {sum_cash: 0, sum_item1: 0, sum_item2: 0, sum_item3: 0, sum_item4: 0, sum_item5: 0});
+
+        // ambil harga rata2
+        this.harga_rata2_perkg = Math.round ( ( this.sum_cash + this.sum_BB + this.sum_CR ) / 
+        ( (this.item1_totalqty * 5) + (this.item2_totalqty * 10) + (this.item3_totalqty * 20) + (this.item4_totalqty * 10) + (this.item5_totalqty * 10) ) ); // nb: rumus: total cast + BB + CR dibagi jumlah KG
+        
+        this.harga_rata2_perkg = (isNaN(this.harga_rata2_perkg)?0:this.harga_rata2_perkg); // jika NaN maka 0
+      }
+      else
+      {
+        this.harga_rata2_perkg = 0;
       }
       
-      this.harga_rata2_perkg = Math.round ( ( this.sum_cash + this.sum_BB + this.sum_CR ) / 
-      ( (this.item1_totalqty * 5) + (this.item2_totalqty * 10) + (this.item3_totalqty * 20) + (this.item4_totalqty * 10) + (this.item5_totalqty * 10) ) ); // nb: rumus: total cast + BB + CR dibagi jumlah KG
-      
+
       if(this.DaftarBiaya !== null)
       {
         let result2 = this.DaftarBiaya.reduce((acc, item) => {
