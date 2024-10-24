@@ -336,7 +336,7 @@ export class HomePage implements OnInit {
     // console.log("sum_cash: "+result.sum_cash);
     // console.log("sum_item1: "+result.sum_item1);
     // console.log("sum_item2: "+result.sum_item2);
-    // console.log(this.doc_no);
+    // console.log(this.doc_no);//
   }
 
   // PRINTER BLE
