@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
 })
 export class SalesPage implements OnInit {
   // ItemList : { order:number, cust_id:number, cust_name: string }[] = [{"order": 3, "cust_id":3, "cust_name": 'Cust Tiga'},{"order": 2, "cust_id": 2, "cust_name":'Cust Dua'},{"order": 1, "cust_id":1, "cust_name":'Cust Satu'}];
-  DaftarSalesItem : {cust_order: number, cust_id: number, cust_name: string, cust_remark: string, cust_type: number,
+  DaftarSalesItem : {transaction_id: number, cust_order: number, cust_id: number, cust_name: string, cust_remark: string, cust_type: number,
     payment_type: number, nilai_BB: number, nilai_credit: number,
     item1_qty: number, item2_qty: number, item3_qty: number, item4_qty: number, item5_qty: number,
     item1_qtyfree: number, item2_qtyfree: number, item3_qtyfree: number, item4_qtyfree: number, item5_qtyfree: number,
@@ -91,7 +91,7 @@ export class SalesPage implements OnInit {
   }
 
 
-  async edit(cust_id: number, cust_name: string, cust_type: number, cust_remark: string,
+  async edit(transaction_id: number, cust_id: number, cust_name: string, cust_type: number, cust_remark: string,
     payment_type: number, nilai_BB: number, nilai_credit: number,
     item1_qty: number, item2_qty: number, item3_qty: number, item4_qty: number, item5_qty: number,
     item1_qtyfree: number, item2_qtyfree: number, item3_qtyfree: number, item4_qtyfree: number, item5_qtyfree: number,
@@ -99,6 +99,7 @@ export class SalesPage implements OnInit {
     item1_price: number, item2_price: number, item3_price: number, item4_price: number, item5_price: number,
     nomor_nota: string){
     // console.log(cust_id);
+    this.storage.set('sales_transaction_id', transaction_id);
     this.storage.set('sales_cust_id', cust_id);
     this.storage.set('sales_cust_name', cust_name);
     this.storage.set('sales_cust_type', cust_type);

@@ -15,7 +15,7 @@ export class SalesCustEditPage implements OnInit {
   public sales_cust_type: string = "0";
   public sales_cust_remark: string = '';
   public CustNameDisplay = '';
-  DaftarSalesItem : {cust_order: number, cust_id: number, cust_name: string, cust_remark: string, cust_type: number,
+  DaftarSalesItem : {transaction_id: number, cust_order: number, cust_id: number, cust_name: string, cust_remark: string, cust_type: number,
     payment_type: number, nilai_BB: number, nilai_credit: number,
     item1_qty: number, item2_qty: number, item3_qty: number, item4_qty: number, item5_qty: number,
     item1_qtyfree: number, item2_qtyfree: number, item3_qtyfree: number, item4_qtyfree: number, item5_qtyfree: number,

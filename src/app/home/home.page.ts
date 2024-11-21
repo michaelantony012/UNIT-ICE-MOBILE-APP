@@ -18,7 +18,7 @@ export class HomePage implements OnInit {
   userlogin: any;
   doc_no: any = '';
   dataLogout: any = '';
-  DaftarSalesItem : {cust_order: number, cust_id: number, cust_name: string, cust_remark: string, cust_type: number,
+  DaftarSalesItem : {transaction_id: number, cust_order: number, cust_id: number, cust_name: string, cust_remark: string, cust_type: number,
     payment_type: number, nilai_BB: number, nilai_credit: number,
     item1_qty: number, item2_qty: number, item3_qty: number, item4_qty: number, item5_qty: number,
     item1_qtyfree: number, item2_qtyfree: number, item3_qtyfree: number, item4_qtyfree: number, item5_qtyfree: number,
@@ -90,6 +90,8 @@ export class HomePage implements OnInit {
 
   harga_rata2_perkg : number = 0;
   target_rute : number = 0;
+
+  total_setoran : number = 0;
 
   // Confirmation Dialog untuk Finish button
   // https://ionicframework.com/docs/api/alert#buttons
@@ -317,7 +319,9 @@ export class HomePage implements OnInit {
       {
         this.harga_rata2_perkg = 0;
       }
-      
+
+      // total setoran
+      this.total_setoran = this.sum_cash + this.sum_tagihan_BB + this.sum_tagihan_credit;
 
       if(this.DaftarBiaya !== null)
       {
@@ -479,7 +483,7 @@ export class HomePage implements OnInit {
 
       this.http.post('https://project.graylite.com/unitice/mobile/start.php', formData)
       .subscribe((data) => {
-        // console.log('data', data);
+        console.log('data', data);
         this.dataSalesStart=data;
         if(this.dataSalesStart.error==true){
           this.presentToast(this.dataSalesStart.message);

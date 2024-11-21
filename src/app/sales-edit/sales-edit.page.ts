@@ -81,10 +81,10 @@ export class SalesEditPage implements OnInit {
   public item5_name: string = '';
 
   public ware_id: number = 0;
-
   route_no: string = '';
+  transaction_id: number = 0;
   
-  DaftarSalesItem : {cust_order: number, cust_id: number, cust_name: string, cust_remark: string, cust_type: number,
+  DaftarSalesItem : {transaction_id: number, cust_order: number, cust_id: number, cust_name: string, cust_remark: string, cust_type: number,
     payment_type: number, nilai_BB: number, nilai_credit: number,
     item1_qty: number, item2_qty: number, item3_qty: number, item4_qty: number, item5_qty: number,
     item1_qtyfree: number, item2_qtyfree: number, item3_qtyfree: number, item4_qtyfree: number, item5_qtyfree: number,
@@ -111,9 +111,11 @@ export class SalesEditPage implements OnInit {
   async ionViewDidEnter(){
     const loadingIndicator = await this.showLoadingIndictator();
 
+    this.transaction_id = await this.storage.get('sales_transaction_id');
     this.ware_id = await this.storage.get('userlogin_wareid');
     this.sales_cust_id = await this.storage.get('sales_cust_id');
     this.sales_cust_name = await this.storage.get('sales_cust_name');
+    this.sales_cust_type = await this.storage.get('sales_cust_type');
 
     this.input_payment_type = await this.storage.get('sales_payment_type');
 
@@ -121,14 +123,9 @@ export class SalesEditPage implements OnInit {
     // JIka sales_nomor_nota kosong, tampilkan dgn nomor terakhir 
     if(this.sales_nomor_nota == '')
       {
-        this.route_no = await this.storage.get('userlogin_routeno');
-        this.doc_no_nota = await this.storage.get('doc_no_nota');
-        this.doc_kode_nota_terakhir = parseInt(await this.storage.get('doc_kode_nota_terakhir'));
-        this.sales_nomor_nota =
-          this.route_no + '-' + this.doc_no_nota + '-' + ('000'+(this.doc_kode_nota_terakhir+1).toString()).substr(-3,3);
-      
+        await this.getNomorNota();
+
         // jika tipe customer CR , maka default jenis pembayaran yg terpilih ada CR , selain itu CASH
-        this.sales_cust_type = await this.storage.get('sales_cust_type');
         this.input_payment_type = this.sales_cust_type == 1? 3 : 1;
       }
     
@@ -201,6 +198,33 @@ export class SalesEditPage implements OnInit {
     });
 
     loadingIndicator.dismiss();
+  }
+
+
+  // Confirmation Dialog New Nota
+  public buttonNewNotaAlert = [
+    {
+      text: 'Cancel',
+      role: 'cancel',
+      // handler: () => { console.log('Alert canceled'); },
+    },
+    {
+      text: 'OK',
+      role: 'confirm',
+      handler: () => {
+        // console.log('Alert confirmed');
+        this.newSales();
+      },
+    },
+  ];
+
+  async getNomorNota()
+  {
+    this.route_no = await this.storage.get('userlogin_routeno');
+    this.doc_no_nota = await this.storage.get('doc_no_nota');
+    this.doc_kode_nota_terakhir = parseInt(await this.storage.get('doc_kode_nota_terakhir'));
+    this.sales_nomor_nota =
+      this.route_no + '-' + this.doc_no_nota + '-' + ('000'+(this.doc_kode_nota_terakhir+1).toString()).substr(-3,3);
   }
 
   // On Change input form - START
@@ -627,11 +651,97 @@ export class SalesEditPage implements OnInit {
     this.nav.navigateForward('/sales-cust-edit');
     loadingIndicator.dismiss();
   }
+  async newSales()
+  {
+    const loadingIndicator = await this.showLoadingIndictator();
+    // https://chatgpt.com/share/67208264-4174-800f-8ff2-325b2c979041 // Mengambil transaction_id terakhir + 1
+    const getNewTransactionId = this.DaftarSalesItem.reduce((max, item) => 
+      item.transaction_id > max ? item.transaction_id : max, 
+      this.DaftarSalesItem[0].transaction_id
+    ) + 1;
+
+    // get nomor nota +1
+    await this.getNomorNota();
+
+    // Tambah nota baru untuk customer yang sama
+    this.DaftarSalesItem.unshift({transaction_id: getNewTransactionId, cust_order: 0, cust_id: this.sales_cust_id, cust_name: this.sales_cust_name, cust_remark: "",
+      cust_type: this.sales_cust_type,
+      payment_type: 1, nilai_BB: 0, nilai_credit: 0,
+      item1_qty: 0, item2_qty: 0, item3_qty: 0, item4_qty: 0, item5_qty: 0,
+      item1_qtyfree: 0, item2_qtyfree: 0, item3_qtyfree: 0, item4_qtyfree: 0, item5_qtyfree: 0,
+      item1_qtyretur: 0, item2_qtyretur: 0, item3_qtyretur: 0, item4_qtyretur: 0, item5_qtyretur: 0,
+      item1_price: this.input_item1price, item2_price: this.input_item2price, item3_price: this.input_item3price, item4_price: this.input_item4price, item5_price: this.input_item5price,
+      cust_edited: 0, cust_added: 1, nomor_nota: ""});
+    this.storage.set('DaftarSalesItem', this.DaftarSalesItem);
+
+    // navigasi ke halaman edit nota utk customer ini (nota baru)
+    await this.setStorageNewSales(getNewTransactionId, this.sales_cust_id, this.sales_cust_name, this.sales_cust_type, "", 1,
+      0, 0,
+      0, 0, 0, 0, 0,
+      0, 0, 0, 0, 0,
+      0, 0, 0, 0, 0,
+      this.input_item1price, this.input_item2price, this.input_item3price, this.input_item4price, this.input_item5price,
+      "")
+      
+    // close nota yang saat ini dibuka
+    await this.route.navigate(['/sales'], { replaceUrl: true });
+
+    // routing ke nota baru
+    await this.nav.navigateForward('/sales-edit');
+    
+    this.presentToast("Berhasil buat nota baru : "+this.sales_nomor_nota);
+
+    loadingIndicator.dismiss();
+  }
+
+  // navigasi ke halaman edit nota utk customer ini (nota baru)
+  async setStorageNewSales(transaction_id: number, cust_id: number, cust_name: string, cust_type: number, cust_remark: string,
+    payment_type: number, nilai_BB: number, nilai_credit: number,
+    item1_qty: number, item2_qty: number, item3_qty: number, item4_qty: number, item5_qty: number,
+    item1_qtyfree: number, item2_qtyfree: number, item3_qtyfree: number, item4_qtyfree: number, item5_qtyfree: number,
+    item1_qtyretur: number, item2_qtyretur: number, item3_qtyretur: number, item4_qtyretur: number, item5_qtyretur: number,
+    item1_price: number, item2_price: number, item3_price: number, item4_price: number, item5_price: number,
+    nomor_nota: string){
+    // console.log(cust_id);
+    this.storage.set('sales_transaction_id', transaction_id);
+    this.storage.set('sales_cust_id', cust_id);
+    this.storage.set('sales_cust_name', cust_name);
+    this.storage.set('sales_cust_type', cust_type);
+    this.storage.set('sales_cust_remark', cust_remark);
+    this.storage.set('sales_nomor_nota', nomor_nota);
+    this.storage.set('sales_payment_type', payment_type);
+    this.storage.set('sales_nilai_BB', nilai_BB);
+    this.storage.set('sales_nilai_credit', nilai_credit);
+    this.storage.set('sales_nilai_item1qty', item1_qty);
+    this.storage.set('sales_nilai_item2qty', item2_qty);
+    this.storage.set('sales_nilai_item3qty', item3_qty);
+    this.storage.set('sales_nilai_item4qty', item4_qty);
+    this.storage.set('sales_nilai_item5qty', item5_qty);
+    this.storage.set('sales_nilai_item1qtyfree', item1_qtyfree);
+    this.storage.set('sales_nilai_item2qtyfree', item2_qtyfree);
+    this.storage.set('sales_nilai_item3qtyfree', item3_qtyfree);
+    this.storage.set('sales_nilai_item4qtyfree', item4_qtyfree);
+    this.storage.set('sales_nilai_item5qtyfree', item5_qtyfree);
+    this.storage.set('sales_nilai_item1qtyretur', item1_qtyretur);
+    this.storage.set('sales_nilai_item2qtyretur', item2_qtyretur);
+    this.storage.set('sales_nilai_item3qtyretur', item3_qtyretur);
+    this.storage.set('sales_nilai_item4qtyretur', item4_qtyretur);
+    this.storage.set('sales_nilai_item5qtyretur', item5_qtyretur);
+    this.storage.set('sales_nilai_item1price', item1_price);
+    this.storage.set('sales_nilai_item2price', item2_price);
+    this.storage.set('sales_nilai_item3price', item3_price);
+    this.storage.set('sales_nilai_item4price', item4_price);
+    this.storage.set('sales_nilai_item5price', item5_price);
+
+  }
+
+
   async save()
   {
     
     // const loadingIndicator = await this.showLoadingIndictator();
 
+    const transaction_id = this.transaction_id;
     const sales_cust_id = this.sales_cust_id;
     const sales_cust_name = this.sales_cust_name;
     const input_payment_type = this.input_payment_type ? this.input_payment_type : 0;
@@ -667,7 +777,8 @@ export class SalesEditPage implements OnInit {
       //   ||
       //   (val['cust_name'] == sales_cust_name && sales_cust_id == 0)
       // )
-      if(val['cust_id'] === sales_cust_id)
+      // if(val['cust_id'] === sales_cust_id)
+      if(val['transaction_id'] === transaction_id)
         {
           if(val['nomor_nota'] == '')
             {
@@ -731,6 +842,13 @@ export class SalesEditPage implements OnInit {
 
     await this.print();
     // loadingIndicator.dismiss();
+  }
+  async backOnly()
+  {
+    const loadingIndicator = await this.showLoadingIndictator();
+    
+    this.route.navigate(['/sales'], { replaceUrl: true });
+    loadingIndicator.dismiss();
   }
   /*async cancel()
   {
@@ -821,7 +939,7 @@ export class SalesEditPage implements OnInit {
       let message2 = '';
       let message3 = '';
       message1 = formatDate(new Date(), "dd/MM/yyyy hh:mm a", "en");
-      message2 = (i==0 ? "" : (i==1 ? "COPY" : (i==2 ? "ARSIP" : ""))); // ket. nota rangkap
+      message2 = (i==0 ? (this.input_payment_type == 2 ? "BB" : "") : (i==1 ? "COPY" : (i==2 ? "ARSIP" : ""))); // ket. nota rangkap
       message = this.getPrintTextTotal(message1, message2);
       await this.WriteData(this.deviceId, this.serviceUuid, this.characteristicUuid, message);
       await this.WriteData(this.deviceId, this.serviceUuid, this.characteristicUuid,

@@ -14,7 +14,7 @@ export class SalesCustAddPage implements OnInit {
   public sales_cust_name: any = '';
   public sales_cust_type: string = "0";
   public sales_cust_remark: string = '';
-  DaftarSalesItem : {cust_order: number, cust_id: number, cust_name: string, cust_remark: string, cust_type: number,
+  DaftarSalesItem : {transaction_id: number, cust_order: number, cust_id: number, cust_name: string, cust_remark: string, cust_type: number,
     payment_type: number, nilai_BB: number, nilai_credit: number,
     item1_qty: number, item2_qty: number, item3_qty: number, item4_qty: number, item5_qty: number,
     item1_qtyfree: number, item2_qtyfree: number, item3_qtyfree: number, item4_qtyfree: number, item5_qtyfree: number,
@@ -103,7 +103,13 @@ export class SalesCustAddPage implements OnInit {
 
           });
 
-          this.DaftarSalesItem.unshift({cust_order: 0, cust_id: sales_cust_id_add, cust_name: this.sales_cust_name, cust_remark: this.sales_cust_remark,
+          // https://chatgpt.com/share/67208264-4174-800f-8ff2-325b2c979041 // Mengambil transaction_id terakhir + 1
+          const getNewTransactionId = this.DaftarSalesItem.reduce((max, item) => 
+            item.transaction_id > max ? item.transaction_id : max, 
+            this.DaftarSalesItem[0].transaction_id
+          ) + 1;
+
+          this.DaftarSalesItem.unshift({transaction_id: getNewTransactionId, cust_order: 0, cust_id: sales_cust_id_add, cust_name: this.sales_cust_name, cust_remark: this.sales_cust_remark,
             cust_type: parseInt(this.sales_cust_type),
             payment_type: 1, nilai_BB: 0, nilai_credit: 0,
             item1_qty: 0, item2_qty: 0, item3_qty: 0, item4_qty: 0, item5_qty: 0,
